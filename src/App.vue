@@ -98,7 +98,7 @@
   </div>
 </template>
 <script>
-import { Navbar } from '@coollabsio/devkit'
+import { Navbar } from '@coollabsio/developer-kit'
 import { Edit3Icon, ArrowLeftIcon, HashIcon } from 'vue-feather-icons'
 export default {
   name: 'App',
@@ -203,7 +203,7 @@ export default {
 </script>
 
 <style lang="sass">
-@import '@coollabsio/devkit/styles/sass/main.sass'
+@import '@coollabsio/developer-kit/styles/sass/main.sass'
 @import "~buefy/src/scss/utils/_all.scss"
 @import "~buefy/src/scss/components/_form.scss"
 @import "~buefy/src/scss/components/_notices.scss"

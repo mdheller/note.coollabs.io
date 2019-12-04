@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import About from './views/About.vue'
 import Edit from './views/Edit.vue'
-import { Profile, FeatureBoard, setRouter } from '@coollabsio/devkit'
+import { Profile, FeatureBoard, setRouter } from '@coollabsio/developer-kit'
 import store from './store'
 
 Vue.use(Router)

@@ -158,7 +158,7 @@ import debounce from 'lodash.debounce'
 import Tag from '@/components/Tag/Tag'
 import Dropdown from '@/components/Dropdown/Dropdown'
 import TodoLine from '@/components/TodoLine/TodoLine'
-import { idb, Loading } from '@coollabsio/devkit'
+import { idb, Loading } from '@coollabsio/developer-kit'
 export default {
   name: 'Edit',
   components: {

@@ -4,7 +4,7 @@ import router from '@/router'
 import uuidv4 from 'uuid/v4'
 import Cookies from 'js-cookie'
 import decode from 'jwt-decode'
-import { idb, coolStore } from '@coollabsio/devkit'
+import { idb, coolStore } from '@coollabsio/developer-kit'
 
 Vue.use(Vuex)
 

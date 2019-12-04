@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { Loading } from '@coollabsio/devkit'
+import { Loading } from '@coollabsio/developer-kit'
 export default {
   name: 'Sharing',
   components: { Loading },

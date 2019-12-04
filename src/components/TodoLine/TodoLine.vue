@@ -26,7 +26,7 @@
         :data-todoline="todo.line"
         spellcheck="false"
         class="todo-list-item-line"
-        :class="[todo.isChecked ? 'line-through' : '']"
+        :class="[todo.isChecked ? 'line-through text-green-500' : '']"
         rows="1"
         :readonly="todo.isChecked"
         placeholder="Todo item"

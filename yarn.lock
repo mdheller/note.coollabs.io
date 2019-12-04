@@ -810,16 +810,16 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@coollabsio/devkit@^0.1.140":
-  version "0.1.140"
-  resolved "https://registry.yarnpkg.com/@coollabsio/devkit/-/devkit-0.1.140.tgz#780bca3f146706042d62b7ffefca0c2488acb8d8"
-  integrity sha512-N0QC5gO5Vno8zYBaiMp9jRab14Mwhwvzkdx9xkHmUoKP2lcU7P57XRdd+ZodG9GMl8j/QTbJ6l3aUnOyd3x5eQ==
+"@coollabsio/developer-kit@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@coollabsio/developer-kit/-/developer-kit-1.0.1.tgz#8998747f2b912cd0ac71ff337da9fb9f505d356b"
+  integrity sha512-5EkcUTMjxPLIaXIsXYcBicXtqgCs5rMxJBeCDJTlDwhs6Ed2oiGrYdEm6Le+LDWLKtByPK/SlGLC8W8fsB7Xbw==
   dependencies:
     alertify.js "^1.0.12"
     animate.css "^3.7.2"
     axios "^0.19.0"
     bulma "^0.8.0"
-    core-js "^3.4.5"
+    core-js "^3.4.7"
     idb-keyval "^3.2.0"
     js-cookie "^2.2.1"
     jwt-decode "^2.2.0"
@@ -2953,11 +2953,6 @@ core-js@^3.4.3:
   version "3.4.4"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.4.4.tgz#e3d422f8a51adc4cae2bfa04cef26a5ccc046d29"
   integrity sha512-vKea1DrcLA80Hrfc7AQgfoGvEaByfR5mH08t+zuWOWY94TFBmabdEL56mUbcijvadG9RxsXR2gUUFrfj4/iTcA==
-
-core-js@^3.4.5:
-  version "3.4.5"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.4.5.tgz#3dda65611d95699b5eb7742ea451ea052d37aa65"
-  integrity sha512-OuvejWH6vIaUo59Ndlh89purNm4DCIy/v3QoYlcGnn+PkYI8BhNHfCuAESrWX+ZPfq9JccVJ+XXgOMy77PJexg==
 
 core-js@^3.4.7:
   version "3.4.7"
