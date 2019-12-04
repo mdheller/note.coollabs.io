@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import { Navbar, Authentication } from '@coollabsio/devkit'
+import { Navbar, Authentication } from '@coollabsio/developer-kit'
 export default {
   name: 'About',
   components: { Navbar, Authentication },

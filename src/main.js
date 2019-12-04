@@ -7,7 +7,7 @@ import axios from 'axios'
 import vhCheck from 'vh-check'
 import VueSocketIO from 'vue-socket.io'
 import Buefy from 'buefy'
-import { setAxios } from '@coollabsio/devkit'
+import { setAxios } from '@coollabsio/developer-kit'
 
 Vue.use(Buefy)
 

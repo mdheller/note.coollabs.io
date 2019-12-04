@@ -26,7 +26,7 @@
         :data-todoline="todo.line"
         spellcheck="false"
         class="todo-list-item-line"
-        :class="[todo.isChecked ? 'line-through' : '']"
+        :class="[todo.isChecked ? 'line-through text-green-500' : '']"
         rows="1"
         :readonly="todo.isChecked"
         placeholder="Todo item"
@@ -84,7 +84,7 @@ export default {
   },
   methods: {
     focus () {
-      this.$store.commit('setFocusLine', this.lineIndex)
+      this.$store.commit('setState', { name: 'focusLine', value: this.lineIndex })
     },
     goToTodo (index) {
       this.$emit('goToTodo', index)

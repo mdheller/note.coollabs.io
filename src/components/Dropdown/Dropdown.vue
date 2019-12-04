@@ -11,9 +11,9 @@
       name="dropdown-trigger"
       class="dropdown-trigger"
     />
-    <div class="dropdown-menu  z-9999">
+    <div class="dropdown-menu z-9999">
       <div
-        class="dropdown-content shadow-lg border mx-5"
+        class="mx-5 border shadow-lg dropdown-content"
         :class="contentDesign"
       >
         <slot name="dropdown-content" />
@@ -41,7 +41,7 @@ export default {
         return this.$store.state.isMenuVisible
       },
       set (value) {
-        this.$store.commit('isMenuVisible', value)
+        this.$store.commit('setState', { name: 'isMenuVisible', value: value })
       }
     }
   },
