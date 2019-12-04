@@ -177,9 +177,9 @@ export default {
           this.$store.commit('selectTag', null)
         }
       }
+      this.$store.commit('coolStore/setState', { name: 'showMenu', value: false })
     },
     unSelectTag () {
-      this.showMenuGlobal = Math.random()
       this.$store.commit('selectTag', null)
     },
     addNewNote () {

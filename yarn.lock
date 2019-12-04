@@ -810,10 +810,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@coollabsio/developer-kit@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@coollabsio/developer-kit/-/developer-kit-1.0.1.tgz#8998747f2b912cd0ac71ff337da9fb9f505d356b"
-  integrity sha512-5EkcUTMjxPLIaXIsXYcBicXtqgCs5rMxJBeCDJTlDwhs6Ed2oiGrYdEm6Le+LDWLKtByPK/SlGLC8W8fsB7Xbw==
+"@coollabsio/developer-kit@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@coollabsio/developer-kit/-/developer-kit-1.0.2.tgz#e2992b6d9fb5049f5a960057101a54912f07499f"
+  integrity sha512-x5ESRYDazBhoSrX9W3ok8KEtIsU1jb/g3c18PUrJDFp+wLZoEPwi9ws4CbXA6nBIUiB64cKlDoJmdmIa8oKfYQ==
   dependencies:
     alertify.js "^1.0.12"
     animate.css "^3.7.2"
