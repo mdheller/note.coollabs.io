@@ -33,7 +33,6 @@ export default new Vuex.Store({
     search: '',
     selectedTag: null,
     selectedNote: null,
-    selectedNoteIndex: null,
     focusLine: null,
     top: 0
   },
@@ -52,9 +51,6 @@ export default new Vuex.Store({
     },
     setSelectedNote (state, value) {
       state.selectedNote = value
-    },
-    setSelectedNoteIndex (state, value) {
-      state.selectedNoteIndex = value
     },
     showMainMenu (state, value = null) {
       if (value !== null) state.showMainMenu = value
@@ -263,7 +259,6 @@ export default new Vuex.Store({
           }
           if (router.currentRoute && router.currentRoute.path && router.currentRoute.path !== '/' && router.currentRoute.params.noteUuid === msg.data.uuid) {
             commit('setSelectedNote', msg.data)
-            commit('setSelectedNoteIndex', state.notes.findIndex(i => i.uuid === msg.data.uuid))
           }
         }
       }
@@ -358,7 +353,6 @@ export default new Vuex.Store({
           }
         }
       }
-      commit('setSelectedNoteIndex', state.notes.findIndex(i => i.uuid === router.currentRoute.params.noteUuid))
       setTimeout(function () { commit('setLoading', { load: 'remoteNotes', isLoading: false }) }, 800)
     },
     async setTags ({ state, commit }) {

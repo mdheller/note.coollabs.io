@@ -195,10 +195,7 @@ export default {
   },
   beforeDestroy () {
     this.$store.commit('setSelectedNote', null)
-    this.$store.commit('setSelectedNoteIndex', null)
     this.$store.commit('setFocusLine', null)
-    document.removeEventListener('touchstart', this.handleTouchStart, false)
-    document.removeEventListener('touchmove', this.handleTouchMove, false)
   },
   async mounted () {
     if (!this.note) {
@@ -228,81 +225,9 @@ export default {
         }
       }
     }
-    document.addEventListener('touchstart', this.handleTouchStart, false)
-    document.addEventListener('touchmove', this.handleTouchMove, false)
     this.updateSizes()
   },
   methods: {
-    handleTouchStart (event) {
-      const firstTouch = event.touches[0]
-      this.xDown = firstTouch.clientX
-      this.yDown = firstTouch.clientY
-    },
-    handleTouchMove (event) {
-      if (!this.xDown || !this.yDown) {
-        return
-      }
-      const xUp = event.touches[0].clientX
-      const yUp = event.touches[0].clientY
-      const xDiff = this.xDown - xUp
-      const yDiff = this.yDown - yUp
-      if (Math.abs(xDiff) > Math.abs(yDiff)) {
-        if (xDiff > 0) {
-          /* left swipe */
-          this.swipeLeft()
-        } else {
-          /* right swipe */
-          this.swipeRight()
-        }
-      } else {
-        if (yDiff > 0) {
-          /* up swipe */
-        } else {
-          /* down swipe */
-        }
-      }
-      this.xDown = null
-      this.yDown = null
-    },
-    swipeLeft () {
-      if (
-        this.$store.state.notes.length >
-          this.$store.state.selectedNoteIndex + 1 &&
-        this.$store.state.notes.length > 0
-      ) {
-        this.$store.commit(
-          'setSelectedNoteIndex',
-          this.$store.state.selectedNoteIndex + 1
-        )
-        this.$store.commit(
-          'setSelectedNote',
-          this.$store.state.notes[this.$store.state.selectedNoteIndex]
-        )
-        this.$router.replace({
-          path: this.$store.state.notes[this.$store.state.selectedNoteIndex]
-            .uuid
-        })
-      }
-    },
-    swipeRight () {
-      if (
-        this.$store.state.selectedNoteIndex - 1 >= 0 &&
-        this.$store.state.notes.length > 0
-      ) {
-        this.$store.commit(
-          'setSelectedNoteIndex',
-          this.$store.state.selectedNoteIndex - 1
-        )
-        this.$store.commit(
-          'setSelectedNote',
-          this.$store.state.notes[this.$store.state.selectedNoteIndex]
-        )
-        this.$router.replace({
-          path: this.$store.state.notes[this.$store.state.selectedNoteIndex]
-            .uuid
-        })
-      }
-    },
     clearDoneTodos () {
       this.note.todo = this.note.todo.filter(todo => !todo.isChecked)
       this.updateNote()

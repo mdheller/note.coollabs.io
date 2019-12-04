@@ -78,7 +78,6 @@ export default {
         'setTop',
         document.documentElement.scrollTop || document.body.scrollTop
       )
-      this.$store.commit('setSelectedNoteIndex', index)
       this.$store.commit('setSelectedNote', note)
       this.$router.push({ path: `note/${note.uuid}` })
     }
