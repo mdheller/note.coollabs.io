@@ -1,0 +1,55 @@
+textarea
+  resize: none !important
+  @apply bg-transparent overflow-hidden
+  
+.dim
+  position: fixed
+  left: 0
+  right: 0
+  bottom: 0
+  background: rgba(17,17,17,0.3)
+  z-index: 1001
+
+  display: none
+.dim-show
+  display: block
+
+// Login button
+.loginButton,
+.loggedInButton,
+.loadingButton
+  transition: 0.2s
+  transform: scale(1)
+  @apply inline-block text-base font-bold py-1 pb-2 px-8 bg-coolgreen rounded-full border-4 border-coolnote cursor-pointer text-white
+  @screen md
+    @apply text-xl
+
+.loggedInButton:hover, .loginButton:hover
+  transition: 0.2s
+  transform: scale(1.1)
+  @apply bg-coolnote border-white text-white
+
+.label
+  font-variant: small-caps
+  @apply pl-2 text-base font-bold cursor-default text-left text-white
+
+.indicator
+  min-width: 8px
+
+.onoff
+  box-shadow: 0 0 0 3px #2c3351 !important
+
+.center
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  @apply absolute w-full text-center text-base font-bold text-black px-4 
+  @screen md
+    @apply text-2xl
+
+// Note related
+.note-deleted
+  border: groove #c53030 !important 
+.overlay
+  background-color: rgba(255,0,0,0.8) !important
+  @apply absolute left-0 right-0 top-0 bottom-0 flex flex-col justify-center text-center cursor-default z-10
