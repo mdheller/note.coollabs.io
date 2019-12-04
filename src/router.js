@@ -66,7 +66,10 @@ router.afterEach((to, from) => {
             top: store.state.top,
             left: 0
           })
-          store.commit('setTop', 0)
+          this.$store.commit(
+            'setState',
+            { name: 'top', value: 0 }
+          )
         }
       })
     }

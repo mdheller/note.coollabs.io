@@ -258,7 +258,7 @@ export default {
         return this.$store.state.isMenuVisible
       },
       set (value) {
-        this.$store.commit('isMenuVisible', value)
+        this.$store.commit('setState', { name: 'isMenuVisible', value: value })
       }
     }
   },

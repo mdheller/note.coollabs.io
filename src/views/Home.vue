@@ -65,20 +65,20 @@ export default {
     if (navigator.onLine) {
       if (this.$route.path !== '/about' && !this.$socket.connected) {
         this.$socket.connect()
-        this.$store.commit('setIsOnline', true)
+        this.$store.commit('setState', { name: 'isOnline', value: true })
       }
     } else {
       if (this.$socket.connected) this.$socket.disconnect()
-      this.$store.commit('setIsOnline', false)
+      this.$store.commit('setState', { name: 'isOnline', value: false })
     }
   },
   methods: {
     editMode (note, index) {
       this.$store.commit(
-        'setTop',
-        document.documentElement.scrollTop || document.body.scrollTop
+        'setState',
+        { name: 'top', value: document.documentElement.scrollTop || document.body.scrollTop }
       )
-      this.$store.commit('setSelectedNote', note)
+      this.$store.commit('setState', { name: 'selectedNote', value: note })
       this.$router.push({ path: `note/${note.uuid}` })
     }
   }

@@ -37,20 +37,8 @@ export default new Vuex.Store({
     top: 0
   },
   mutations: {
-    setSearch (state, value) {
-      state.search = value
-    },
-    setConnected (state, value) {
-      state.connected = value
-    },
-    setTop (state, value) {
-      state.top = value
-    },
-    setFocusLine (state, value) {
-      state.focusLine = value
-    },
-    setSelectedNote (state, value) {
-      state.selectedNote = value
+    setState (state, data) {
+      state[data.name] = data.value
     },
     showMainMenu (state, value = null) {
       if (value !== null) state.showMainMenu = value
@@ -58,21 +46,6 @@ export default new Vuex.Store({
     },
     setLoading (state, value) {
       state.loading[value.load] = value.isLoading
-    },
-    selectTag (state, value) {
-      state.selectedTag = value
-    },
-    setTags (state, value) {
-      state.tags = value
-    },
-    isMenuVisible (state, value) {
-      state.isMenuVisible = value
-    },
-    setIsOnline (state, value) {
-      state.isOnline = value
-    },
-    setNotes (state, value) {
-      state.notes = value
     },
     setNote (state, value) {
       const { index, note } = value
@@ -108,11 +81,11 @@ export default new Vuex.Store({
       }
     },
     SOCKET_disconnect ({ commit }) {
-      commit('setConnected', false)
+      commit('setState', { name: 'connected', value: false })
     },
     async SOCKET_connected ({ commit, dispatch }) {
       if (this._vm.$socket.connected) {
-        commit('setConnected', true)
+        commit('setState', { name: 'connected', value: true })
       }
       commit('setLoading', { load: 'remoteNotes', isLoading: true })
       await this._vm.$socket.emit('getNotes', { sendTo: 'myself' })
@@ -258,7 +231,7 @@ export default new Vuex.Store({
             dispatch('syncNoteLocally', { note: msg.data, type: 'findAndModify' })
           }
           if (router.currentRoute && router.currentRoute.path && router.currentRoute.path !== '/' && router.currentRoute.params.noteUuid === msg.data.uuid) {
-            commit('setSelectedNote', msg.data)
+            commit('setState', { name: 'selectedNote', value: msg.data })
           }
         }
       }
@@ -367,11 +340,14 @@ export default new Vuex.Store({
             }
           }
         }
-        commit('setTags', Array.from(tags).sort((a, b) =>
-          a.toLowerCase().localeCompare(b.toLowerCase())
-        ))
+        commit('setState', {
+          name: 'tags',
+          value: Array.from(tags).sort((a, b) =>
+            a.toLowerCase().localeCompare(b.toLowerCase())
+          )
+        })
       } else {
-        commit('setTags', [])
+        commit('setState', { name: 'tags', value: [] })
       }
     },
     async addNewNote ({ state, commit, dispatch }) {
@@ -397,6 +373,7 @@ export default new Vuex.Store({
         deleted: false,
         sharedWith: []
       }
+      commit('setState', { name: 'selectedNote', value: newNote })
       dispatch('syncNoteLocally', { note: newNote, type: 'add' })
       this._vm.$socket.emit('updateNote', { note: newNote, sendTo: 'others' })
       router.push({ path: `/note/${uuid}` })

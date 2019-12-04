@@ -84,7 +84,7 @@ export default {
   },
   methods: {
     focus () {
-      this.$store.commit('setFocusLine', this.lineIndex)
+      this.$store.commit('setState', { name: 'focusLine', value: this.lineIndex })
     },
     goToTodo (index) {
       this.$emit('goToTodo', index)

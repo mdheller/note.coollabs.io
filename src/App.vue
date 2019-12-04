@@ -4,7 +4,7 @@
     :class="{ 'overflow-hidden': overflow }"
   >
     <navbar
-      v-if="$route.path !== '/about'"
+      v-if="$route.path !== '/about' && !navbar"
       :navbar-class="$route.path !== '/profile' && $route.path !== '/feature-board' ? 'navbar-shadow bg-coolnote' : 'bg-coolnote'"
       has-things-before-menu
     >
@@ -106,7 +106,8 @@ export default {
   data () {
     return {
       baseURL: process.env.BASE_URL,
-      overflow: true
+      overflow: true,
+      navbar: false
     }
   },
   computed: {
@@ -115,7 +116,7 @@ export default {
         return this.$store.state.search
       },
       set: function (value) {
-        this.$store.commit('setSearch', value)
+        this.$store.commit('setState', { name: 'search', value: value })
         window.scrollTo({
           top: 0,
           left: 0
@@ -134,29 +135,36 @@ export default {
   },
   watch: {
     $route (to, from) {
+      if (to.name === 'Home') {
+        this.navbar = false
+      }
       if (to.name === 'Edit') {
+        this.navbar = true
         this.overflow = true
       } else {
         this.overflow = false
       }
       if (to.name === 'Profile' || to.name === 'FeatureBoard') {
-        this.$store.commit('setNotes', [])
-        this.$store.commit('setTags', [])
+        this.$store.commit('setState', { name: 'notes', value: [] })
+        this.$store.commit('setState', { name: 'tags', value: [] })
       }
     }
   },
   async created () {
+    if (!this.$route.meta.showModal) {
+      this.navbar = true
+    }
     await this.$store.dispatch('coolStore/checkLogin', { vue: this, db: { db: 'coolNoteDB', store: 'coolNoteStore' }, app: 'coolNote' })
   },
   mounted () {
     if (navigator.onLine) {
       if (this.$route.path !== '/about' && !this.$socket.connected) {
         this.$socket.connect()
-        this.$store.commit('setIsOnline', true)
+        this.$store.commit('setState', { name: 'isOnline', value: true })
       }
     } else {
       if (this.$socket.connected) this.$socket.disconnect()
-      this.$store.commit('setIsOnline', false)
+      this.$store.commit('setState', { name: 'isOnline', value: false })
     }
     window.addEventListener('online', this.updateOnlineStatus)
     window.addEventListener('offline', this.updateOnlineStatus)
@@ -169,21 +177,21 @@ export default {
     selectTag (tag) {
       this.search = ''
       if (this.selectedTag === tag) {
-        this.$store.commit('selectTag', null)
+        this.$store.commit('setState', { name: 'selectedTag', value: null })
       } else {
         if (tag) {
-          this.$store.commit('selectTag', tag)
+          this.$store.commit('setState', { name: 'selectedTag', value: tag })
         } else {
-          this.$store.commit('selectTag', null)
+          this.$store.commit('setState', { name: 'selectedTag', value: null })
         }
       }
       this.$store.commit('coolStore/setState', { name: 'showMenu', value: false })
     },
     unSelectTag () {
-      this.$store.commit('selectTag', null)
+      this.$store.commit('setState', { name: 'selectedTag', value: null })
     },
     addNewNote () {
-      this.$store.commit('selectTag', null)
+      this.$store.commit('setState', { name: 'selectedTag', value: null })
       this.$store.commit('showMainMenu', false)
       this.$store.dispatch('addNewNote')
     },
@@ -191,11 +199,11 @@ export default {
       if (value.type === 'online') {
         if (this.$route.path !== '/about' && !this.$socket.connected) {
           this.$socket.connect()
-          this.$store.commit('setIsOnline', true)
+          this.$store.commit('setState', { name: 'isOnline', value: true })
         }
       } else {
         this.$socket.disconnect()
-        this.$store.commit('setIsOnline', false)
+        this.$store.commit('setState', { name: 'isOnline', value: false })
       }
     }
   }

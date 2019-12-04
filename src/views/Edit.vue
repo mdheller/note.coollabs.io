@@ -4,7 +4,7 @@
     class="h-full edit"
   >
     <div
-      v-if="note.deleted"
+      v-if="note && note.deleted"
       class="overlay-full"
       @click.stop
     >
@@ -23,7 +23,10 @@
         </div>
       </span>
     </div>
-    <div :class="[note.deleted ? 'opacity-50' : '']">
+    <div
+      v-if="note"
+      :class="[note && note.deleted ? 'opacity-50' : '']"
+    >
       <textarea
         ref="title"
         v-model="note.title"
@@ -74,7 +77,7 @@
       >
         <template #dropdown-trigger>
           <settings-icon
-            v-if="!note.deleted"
+            v-if="note && !note.deleted"
             title="Settings"
             class="fixed right-0 mx-6 icon-to-black settings-icon"
           />
@@ -174,7 +177,7 @@ export default {
       debounceFn: null,
       xDown: null,
       yDown: null,
-      loading: true
+      loading: false
     }
   },
   computed: {
@@ -186,7 +189,7 @@ export default {
         return this.$store.state.selectedNote
       },
       set: function (value) {
-        this.$store.commit('setSelectedNote', value)
+        this.$store.commit('setState', { name: 'selectedNote', value: value })
       }
     }
   },
@@ -194,10 +197,10 @@ export default {
     this.updateSizes()
   },
   beforeDestroy () {
-    this.$store.commit('setSelectedNote', null)
-    this.$store.commit('setFocusLine', null)
+    this.$store.commit('setState', { name: 'selectedNote', value: null })
+    this.$store.commit('setState', { name: 'focusLine', value: null })
   },
-  async mounted () {
+  async created () {
     if (!this.note) {
       const localNote = await idb.read(
         this.$route.params.noteUuid,
@@ -206,6 +209,7 @@ export default {
       if (localNote) {
         this.note = localNote
       } else {
+        this.loading = true
         await this.$socket.emit('getNote', {
           uuid: this.$route.params.noteUuid,
           sendTo: 'myself'
@@ -213,6 +217,9 @@ export default {
       }
     }
     this.loading = false
+  },
+  async mounted () {
+    console.log(this.$route)
     document.onkeydown = async evt => {
       evt = evt || window.event
       if (evt.keyCode === 27) {
@@ -369,7 +376,7 @@ export default {
         this.note.todo[index].isChecked = false
       }
       this.updateNote()
-      this.$store.commit('setFocusLine', null)
+      this.$store.commit('setState', { name: 'selectedNote', value: null })
     },
     deleteTodo (index) {
       if (this.note.todo[index].line === '' && this.note.todo.length > 1) {
@@ -402,7 +409,7 @@ export default {
             note: lastUpdate,
             type: 'findAndModify'
           })
-          self.$store.commit('setSelectedNote', lastUpdate)
+          self.$store.commit('setState', { name: 'selectedNote', value: lastUpdate })
           if (self.$store.state.isOnline) {
             self.$socket.emit('updateNote', {
               note: lastUpdate,
