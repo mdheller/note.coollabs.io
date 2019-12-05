@@ -107,7 +107,7 @@ export default {
     return {
       baseURL: process.env.BASE_URL,
       overflow: true,
-      navbar: false
+      navbar: true
     }
   },
   computed: {
@@ -152,7 +152,7 @@ export default {
   },
   async created () {
     if (!this.$route.meta.showModal) {
-      this.navbar = true
+      this.navbar = false
     }
     await this.$store.dispatch('coolStore/checkLogin', { vue: this, db: { db: 'coolNoteDB', store: 'coolNoteStore' }, app: 'coolNote' })
   },
