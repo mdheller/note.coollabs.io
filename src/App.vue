@@ -107,7 +107,7 @@ export default {
     return {
       baseURL: process.env.BASE_URL,
       overflow: true,
-      navbar: false
+      navbar: true
     }
   },
   computed: {
