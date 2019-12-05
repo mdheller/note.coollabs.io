@@ -151,7 +151,7 @@ export default {
     }
   },
   async created () {
-    if (!this.$route.meta.showModal) {
+    if (!this.$route.meta.showModal && this.$route.path !== '/profile' && this.$route.path !== '/feature-board') {
       this.navbar = true
     }
     await this.$store.dispatch('coolStore/checkLogin', { vue: this, db: { db: 'coolNoteDB', store: 'coolNoteStore' }, app: 'coolNote' })
