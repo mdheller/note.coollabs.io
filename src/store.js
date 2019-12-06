@@ -18,7 +18,6 @@ export default new Vuex.Store({
       db: 'coolNoteDB',
       store: 'coolNoteStore'
     },
-    baseUrl: process.env.BASE_URL,
     loading: {
       remoteNotes: false,
       localNotes: true,

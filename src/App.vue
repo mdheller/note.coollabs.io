@@ -90,8 +90,9 @@
       mode="out-in"
     >
       <router-view
-        v-if="$route.path !== '/about'"
-        class="h-full pt-navbar"
+             v-if="$route.path !== '/about'"
+        class="min-h-full"
+        :class="{'pt-navbar': $route.path !== '/about'}"
       />
       <router-view v-else />
     </transition>
@@ -105,8 +106,7 @@ export default {
   components: { Navbar, Edit3Icon, ArrowLeftIcon, HashIcon },
   data () {
     return {
-      baseURL: process.env.BASE_URL,
-      overflow: true,
+      overflow: false,
       navbar: false
     }
   },
