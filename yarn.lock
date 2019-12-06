@@ -810,10 +810,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@coollabsio/developer-kit@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@coollabsio/developer-kit/-/developer-kit-1.0.1.tgz#8b7f419f8e50adfd612df98c1e4431374895092c"
-  integrity sha512-rdUEtzT4OBFsrHK3fVV2/wHD0hmd94u2KqlzwfUro/DSbT5ZmIhlb2d7EFF8tOgndEgE12ST990exBDhfeayBQ==
+"@coollabsio/developer-kit@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@coollabsio/developer-kit/-/developer-kit-1.0.5.tgz#1ad027e6608029887ed6916c306c3eacbb5cd339"
+  integrity sha512-h2VsaWHi2NS3l+NghGfGVKUvyG/utzq/Bjk6KtTzg9yTqUmS9BylNRUa7Fk7HGvseeSofiNiZlU+cFwhW/EybQ==
   dependencies:
     alertify.js "^1.0.12"
     animate.css "^3.7.2"
@@ -1269,10 +1269,10 @@
     source-map "~0.6.1"
     vue-template-es2015-compiler "^1.9.0"
 
-"@vue/eslint-config-standard@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@vue/eslint-config-standard/-/eslint-config-standard-5.0.0.tgz#2ffabb4056205a86782cd5a641cdbcd330d905b4"
-  integrity sha512-t1mQIqtoQ3FsAx/8RnzT9VCCdbKD0O1pzvVzsN5WrIVIgos5RVII7aSTdh3HjAVn5+UmWLnG/OK+fow4EY7YsA==
+"@vue/eslint-config-standard@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@vue/eslint-config-standard/-/eslint-config-standard-5.0.1.tgz#0ffe65368cd45516498d581457098c69d9173cbe"
+  integrity sha512-8QHYlaGcO1/0IDe0JpzF6DHsQgzHUCqnrBhsX+Y9NmM81ek5XWrxzKfoMQbNXnvy69D/NzI3+a4incYAR36J0A==
   dependencies:
     eslint-config-standard "^14.1.0"
 
