@@ -23,7 +23,7 @@
     </div>
     <div
       v-show="showModal"
-      class="modal"
+      class="overflow-auto  modal"
       :class="[showModal ? 'is-active bg-white': '']"
     >
       <div class="modal-content-home">
