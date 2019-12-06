@@ -23,8 +23,8 @@
     </div>
     <div
       v-show="showModal"
-      class="modal"
-      :class="[showModal ? 'is-active': '']"
+      class="overflow-auto  modal"
+      :class="[showModal ? 'is-active bg-white': '']"
     >
       <div class="modal-content-home">
         <router-view />
@@ -88,7 +88,6 @@ export default {
 .modal-content-home
   width: 100%
   height: 100%
-  max-height: 100vh
   margin: 0
   @apply bg-white
 .center
