@@ -219,7 +219,6 @@ export default {
     this.loading = false
   },
   async mounted () {
-    console.log(this.$route)
     document.onkeydown = async evt => {
       evt = evt || window.event
       if (evt.keyCode === 27) {
