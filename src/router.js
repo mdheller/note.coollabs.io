@@ -21,6 +21,14 @@ const router = new Router({
       component: FeatureBoard
     },
     {
+      path: '/settings',
+      name: 'SettingsView',
+      component: () =>
+      import(
+        /* webpackChunkName: "SettingsView", webpackPrefetch: true */ './views/Settings.vue'
+      )
+    },
+    {
       path: '/',
       name: 'Home',
       component: () =>

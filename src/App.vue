@@ -5,26 +5,26 @@
   >
     <navbar
       v-if="$route.path !== '/about' && !navbar"
-      :navbar-class="$route.path !== '/profile' && $route.path !== '/feature-board' ? 'navbar-shadow bg-coolnote' : 'bg-coolnote'"
+      :navbar-class="$route.path !== '/profile' && $route.path !== '/feature-board' && $route.path !== '/settings' ? 'navbar-shadow bg-coolnote' : 'bg-coolnote'"
       has-things-before-menu
     >
       <template v-slot:brand>
         <div class="cursor-pointer navbar-item">
           <edit-3-icon
-            v-show="$route.path !== '/profile' && $route.path !== '/feature-board'"
+            v-show="$route.path !== '/profile' && $route.path !== '/feature-board' && $route.path !== '/settings'"
             size="30"
             class="mx-1 my-auto animated jackInTheBox faster navbar-icon"
             @click.stop="addNewNote()"
           />
           <arrow-left-icon
-            v-show="$route.path === '/profile' || $route.path === '/feature-board'"
+            v-show="$route.path === '/profile' || $route.path === '/feature-board' || $route.path === '/settings'"
             size="30"
             class="mx-1 my-auto animated jackInTheBox faster navbar-icon"
             @click="$store.commit('coolStore/goBack',$router)"
           />
         </div>
         <div
-          v-show="selectedTag === null && $route.path !== '/profile' && $route.path !== '/feature-board'"
+          v-show="selectedTag === null && $route.path !== '/profile' && $route.path !== '/feature-board' && $route.path !== '/settings'"
           class="mx-auto my-auto animated fadeInDown faster"
         >
           <b-field class>
@@ -90,8 +90,8 @@
       mode="out-in"
     >
       <router-view
-             v-if="$route.path !== '/about'"
-        class="min-h-full"
+        v-if="$route.path !== '/about'"
+        class="h-full min-h-full"
         :class="{'pt-navbar': $route.path !== '/about'}"
       />
       <router-view v-else />
@@ -144,14 +144,14 @@ export default {
       } else {
         this.overflow = false
       }
-      if (to.name === 'Profile' || to.name === 'FeatureBoard') {
+      if (to.name === 'Profile' || to.name === 'FeatureBoard' || to.name === 'SettingsView') {
         this.$store.commit('setState', { name: 'notes', value: [] })
         this.$store.commit('setState', { name: 'tags', value: [] })
       }
     }
   },
   async created () {
-    if (!this.$route.meta.showModal && this.$route.path !== '/profile' && this.$route.path !== '/feature-board') {
+    if (!this.$route.meta.showModal && this.$route.path !== '/profile' && this.$route.path !== '/feature-board' && this.$route.path !== '/settings') {
       this.navbar = true
     }
     await this.$store.dispatch('coolStore/checkLogin', { vue: this, db: { db: 'coolNoteDB', store: 'coolNoteStore' }, app: 'coolNote' })
