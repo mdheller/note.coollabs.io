@@ -4,7 +4,7 @@
     :class="{ 'overflow-hidden': overflow }"
   >
     <navbar
-      v-if="$route.path !== '/about' && !navbar"
+      v-if="$route.path !== '/about' && customNavbar"
       :navbar-class="$route.path !== '/profile' && $route.path !== '/feature-board' && $route.path !== '/settings' ? 'navbar-shadow bg-coolnote' : 'bg-coolnote'"
       has-things-before-menu
     >
@@ -39,7 +39,7 @@
           </b-field>
         </div>
         <div
-          v-if="selectedTag && $route.path !== '/profile' && $route.path !== '/feature-board'"
+          v-if="selectedTag && $route.path !== '/profile' && $route.path !== '/feature-board' && $route.path !== '/settings'"
           class="flex my-auto text-white cursor-pointer animated fadeIn faster hover:text-red-600 hideshowtruncate"
           @click="unSelectTag()"
         >
@@ -107,7 +107,7 @@ export default {
   data () {
     return {
       overflow: false,
-      navbar: false
+      customNavbar: false
     }
   },
   computed: {
@@ -136,23 +136,24 @@ export default {
   watch: {
     $route (to, from) {
       if (to.name === 'Home') {
-        this.navbar = false
+        this.customNavbar = true
       }
       if (to.name === 'Edit') {
-        this.navbar = true
+        this.customNavbar = false
         this.overflow = true
       } else {
         this.overflow = false
       }
       if (to.name === 'Profile' || to.name === 'FeatureBoard' || to.name === 'SettingsView') {
+        this.customNavbar = true
         this.$store.commit('setState', { name: 'notes', value: [] })
         this.$store.commit('setState', { name: 'tags', value: [] })
       }
     }
   },
   async created () {
-    if (!this.$route.meta.showModal && this.$route.path !== '/profile' && this.$route.path !== '/feature-board' && this.$route.path !== '/settings') {
-      this.navbar = true
+    if (this.$route.path === '/profile' || this.$route.path === '/feature-board') {
+      this.customNavbar = true
     }
     await this.$store.dispatch('coolStore/checkLogin', { vue: this, db: { db: 'coolNoteDB', store: 'coolNoteStore' }, app: 'coolNote' })
   },

@@ -50,7 +50,7 @@ const router = new Router({
       component: Profile,
       meta: {
         app: 'coolNote',
-        deletion: false
+        deletion: true
       }
     },
     {
