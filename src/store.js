@@ -282,14 +282,16 @@ export default new Vuex.Store({
       let noteUUIDs = await idb.load(state.idbStore)
       if (notes && notes.data) {
         if (notes.data.length === 0) {
-          for (const [i, uuid] of noteUUIDs.entries()) {
-            const localNote = await idb.read(uuid, state.idbStore)
-            localNote.deleted = true
-            dispatch('syncNoteLocally', { note: localNote, index: i, type: 'modify' })
+          if (noteUUIDs) {
+            for (const [i, uuid] of noteUUIDs.entries()) {
+              const localNote = await idb.read(uuid, state.idbStore)
+              localNote.deleted = true
+              dispatch('syncNoteLocally', { note: localNote, index: i, type: 'modify' })
+            }
           }
         } else {
           for (const remoteNote of notes.data) {
-            if (noteUUIDs.includes(remoteNote.uuid)) {
+            if (noteUUIDs && noteUUIDs.includes(remoteNote.uuid)) {
               const localNote = await idb.read(remoteNote.uuid, state.idbStore)
               noteUUIDs = noteUUIDs.filter(uuid => uuid !== localNote.uuid)
               if (remoteNote.deleted) {
@@ -305,7 +307,7 @@ export default new Vuex.Store({
           }
         }
         // If note is only available locally
-        if (noteUUIDs.length > 0) {
+        if (noteUUIDs && noteUUIDs.length > 0) {
           for (const uuid of noteUUIDs) {
             // console.log('on cloud it is not available, sync...')
             const localNote = await idb.read(uuid, state.idbStore)
@@ -317,7 +319,7 @@ export default new Vuex.Store({
           }
         }
       } else {
-        if (noteUUIDs.length > 0) {
+        if (noteUUIDs && noteUUIDs.length > 0) {
           for (const uuid of noteUUIDs) {
             // console.log('on cloud it is not available, sync...')
             const localNote = await idb.read(uuid, state.idbStore)
@@ -333,7 +335,7 @@ export default new Vuex.Store({
     },
     async setTags ({ state, commit }) {
       const noteUUIDs = await idb.load(state.idbStore)
-      if (noteUUIDs.length > 0) {
+      if (noteUUIDs && noteUUIDs.length > 0) {
         const tags = new Set()
         for (const note of noteUUIDs) {
           const readNote = await idb.read(note, state.idbStore)
