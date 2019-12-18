@@ -46,10 +46,11 @@
 <script>
 import Note from '@/components/Note/Note'
 import { PlusIcon } from 'vue-feather-icons'
+import { Loading } from '@coollabsio/developer-kit'
 
 export default {
   name: 'Home',
-  components: { Note, PlusIcon },
+  components: { Note, PlusIcon, Loading },
   data () {
     return {
       showModal: this.$route.meta.showModal,
