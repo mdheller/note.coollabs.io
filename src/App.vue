@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <navbar
-      v-if="$route.path !== '/about' && customNavbar"
+      v-if="$route.path !== '/about' && customNavbar && !$store.state.loading.localNotes"
       has-things-before-menu
     >
       <template v-slot:brand>
