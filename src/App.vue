@@ -21,7 +21,7 @@
         </div>
         <div
           v-show="selectedTag === null && $route.path !== '/profile' && $route.path !== '/feature-board' && $route.path !== '/settings'"
-          class="w-full mx-auto my-auto"
+          class="w-full pr-3 mx-auto my-auto"
         >
           <b-field class>
             <b-input

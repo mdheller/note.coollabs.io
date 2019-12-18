@@ -27,10 +27,10 @@
         </div>
       </div>
     </div>
-    <!--     <Loading
+    <Loading
       v-if="loading"
       class="bg-coolnote"
-    /> -->
+    />
     <div
       v-show="showModal"
       class="overflow-auto modal"
