@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <navbar
-      v-if="$route.path !== '/about' && customNavbar && !$store.state.loading.localNotes"
+      v-if="$route.name !== 'About' && !editMode"
       has-things-before-menu
     >
       <template v-slot:brand>
@@ -101,8 +101,7 @@ export default {
   components: { Navbar, Edit3Icon, ArrowLeftIcon, HashIcon },
   data () {
     return {
-      overflow: false,
-      customNavbar: false
+      editMode: true
     }
   },
   computed: {
@@ -130,17 +129,14 @@ export default {
   },
   watch: {
     $route (to, from) {
-      if (to.name === 'Home') {
-        this.customNavbar = true
-      }
       if (to.name === 'Edit') {
-        this.customNavbar = false
+        this.editMode = true
         document.documentElement.classList.add('overflow-hidden')
       } else {
+        this.editMode = false
         document.documentElement.classList.remove('overflow-hidden')
       }
       if (to.name === 'Profile' || to.name === 'FeatureBoard' || to.name === 'SettingsView') {
-        this.customNavbar = true
         this.$store.commit('setState', { name: 'notes', value: [] })
         this.$store.commit('setState', { name: 'tags', value: [] })
       }
@@ -148,7 +144,7 @@ export default {
   },
   async created () {
     if (this.$route.path === '/profile' || this.$route.path === '/feature-board') {
-      this.customNavbar = true
+      this.editMode = false
     }
     await this.$store.dispatch('coolStore/checkLogin', { vue: this, db: { db: 'coolNoteDB', store: 'coolNoteStore' }, app: 'coolNote' })
   },
