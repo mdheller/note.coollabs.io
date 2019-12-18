@@ -73,12 +73,12 @@ export default new Vuex.Store({
           testNotes.push(readNote)
           /* commit('addNote', readNote) */
           /* console.log('localnote') */
-          if (state.loading.localNotes) {
-            commit('setLoading', { load: 'localNotes', isLoading: false })
-          }
         }
         dispatch('setTags')
         commit('setState', { name: 'notes', value: testNotes })
+        if (state.loading.localNotes) {
+          commit('setLoading', { load: 'localNotes', isLoading: false })
+        }
       } else {
         commit('setLoading', { load: 'localNotes', isLoading: false })
       }

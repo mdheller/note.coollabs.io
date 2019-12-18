@@ -12,14 +12,14 @@
       >
         <span class="text-white">
           <p class="text-2xl font-bold small-caps">Ooops, note deleted.</p>
-          <p>Do you still need it?</p>
+          <p class="pb-2 text-base">Do you still need it?</p>
           <div class="flex flex-row justify-center">
             <button
-              class="py-2 mx-2 syncbutton"
+              class="h-8 px-2 py-0 mx-2 text-xs button cool-button bg-coolgreen"
               @click="forceSync()"
             >Yes</button>
             <button
-              class="py-2 mx-2 delbutton"
+              class="h-8 px-2 py-0 mx-2 text-xs button cool-button bg-coolred"
               @click="forceDelete()"
             >No</button>
           </div>
@@ -92,7 +92,7 @@
                 v-else
                 title="Undone"
                 size="24"
-                class="mx-2 icon"
+                class="mx-2 icon hover:text-black"
               />
             </div>
             <div class="note-todo-list-item">
@@ -125,7 +125,7 @@
                   <user-plus-icon
                     v-if="$store.state.isOnline && $store.state.connected"
                     size="1.5x"
-                    class="mx-4 icon"
+                    class="mx-4 icon hover:text-black"
                     title="Share note"
                     @click.stop
                     @click="shareNoteModal = true"

@@ -1,11 +1,7 @@
 <template>
-  <div
-    id="app"
-    :class="{ 'overflow-hidden': overflow }"
-  >
+  <div id="app">
     <navbar
       v-if="$route.path !== '/about' && customNavbar"
-      :navbar-class="$route.path !== '/profile' && $route.path !== '/feature-board' && $route.path !== '/settings' ? 'navbar-shadow bg-coolnote' : 'bg-coolnote'"
       has-things-before-menu
     >
       <template v-slot:brand>
@@ -91,8 +87,7 @@
     >
       <router-view
         v-if="$route.path !== '/about'"
-        class="h-full min-h-full"
-        :class="{'pt-navbar': $route.path !== '/about'}"
+        :class="{'mt-navbar': $route.path !== '/about'}"
       />
       <router-view v-else />
     </transition>
@@ -140,9 +135,9 @@ export default {
       }
       if (to.name === 'Edit') {
         this.customNavbar = false
-        this.overflow = true
+        document.documentElement.classList.add('overflow-hidden')
       } else {
-        this.overflow = false
+        document.documentElement.classList.remove('overflow-hidden')
       }
       if (to.name === 'Profile' || to.name === 'FeatureBoard' || to.name === 'SettingsView') {
         this.customNavbar = true
@@ -219,9 +214,6 @@ export default {
 @import "~buefy/src/scss/components/_checkbox.scss"
 @import "assets/styles/custom.sass"
 
-html
-  overflow: visible !important
-
 #app, textarea, input
-  @apply font-oxygen antialiased
+  @apply font-oxygen
 </style>

@@ -1,26 +1,36 @@
 <template>
   <div class="application">
-    <div class="notes">
-      <div v-show="!loading">
-        <note
-          v-for="(note,index) in notes"
-          v-show="(!note.deletedLocally) && (!$store.state.selectedTag || (note.tags && note.tags.length > 0 && note.tags.includes($store.state.selectedTag))) && (note.title && note.title.match(new RegExp(`.*${$store.state.search}.*`,'giu')) || note.description && note.description.match(new RegExp(`.*${$store.state.search}.*`,'giu')) || (note.tags && note.tags.toString().match(new RegExp(`.*${$store.state.search}.*`,'giu')))|| (note.todo && note.todo.length > 0 && note.todo.map(todo => todo.line).toString().match(new RegExp(`.*${$store.state.search}.*`,'giu'))))"
-          :key="note.uuid"
-          :note="note"
-          @click.native="editMode(note,index)"
-        />
+    <div
+      v-show="!loading"
+      class="notes"
+    >
+      <note
+        v-for="(note,index) in notes"
+        v-show="(!note.deletedLocally) && (!$store.state.selectedTag || (note.tags && note.tags.length > 0 && note.tags.includes($store.state.selectedTag))) && (note.title && note.title.match(new RegExp(`.*${$store.state.search}.*`,'giu')) || note.description && note.description.match(new RegExp(`.*${$store.state.search}.*`,'giu')) || (note.tags && note.tags.toString().match(new RegExp(`.*${$store.state.search}.*`,'giu')))|| (note.todo && note.todo.length > 0 && note.todo.map(todo => todo.line).toString().match(new RegExp(`.*${$store.state.search}.*`,'giu'))))"
+        :key="note.uuid"
+        :note="note"
+        @click.native="editMode(note,index)"
+      />
+      <div
+        v-if="notes.length === 0 && !loading"
+        class="absolute w-full text-base font-bold text-center text-black center"
+      >
+        No notes found! Let's create your first one!
         <div
-          v-if="notes.length === 0 && !loading"
-          class="absolute w-full text-base font-bold text-center text-black center"
+          class="flex flex-col items-center justify-center h-full my-3 animated jello"
+          @click="addNewNote()"
         >
-          No notes found! Let's create one! 😎
+          <PlusIcon
+            size="60"
+            class="plus"
+          />
         </div>
       </div>
-      <!--       <b-loading
-        :active.sync="$store.state.loading.localNotes"
-        :is-full-page="true"
-      ></b-loading>-->
     </div>
+    <Loading
+      v-if="loading"
+      class="bg-coolnote"
+    />
     <div
       v-show="showModal"
       class="overflow-auto modal"
@@ -35,10 +45,12 @@
 
 <script>
 import Note from '@/components/Note/Note'
+import { Loading } from '@coollabsio/developer-kit'
+import { PlusIcon } from 'vue-feather-icons'
 
 export default {
   name: 'Home',
-  components: { Note },
+  components: { Note, Loading, PlusIcon },
   data () {
     return {
       showModal: this.$route.meta.showModal,
@@ -73,6 +85,11 @@ export default {
     }
   },
   methods: {
+    addNewNote () {
+      this.$store.commit('setState', { name: 'selectedTag', value: null })
+      this.$store.commit('showMainMenu', false)
+      this.$store.dispatch('addNewNote')
+    },
     editMode (note, index) {
       this.$store.commit(
         'setState',
@@ -95,10 +112,10 @@ export default {
   left: 50%
   transform: translate(-50%, -50%)
 .notes
-  transition: 0.5s
+  transition: 0.2s
   column-gap: 0
   column-count:1
-  @apply pb-5
+
   @screen sm
     column-count: 2
   @screen md
