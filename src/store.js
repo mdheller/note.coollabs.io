@@ -67,15 +67,23 @@ export default new Vuex.Store({
     async loadLocalNotes ({ state, commit, dispatch }) {
       const noteUUIDs = await idb.load(state.idbStore)
       if (noteUUIDs.length > 0) {
-        const testNotes = []
+        // eslint-disable-next-line prefer-const
+        let testNotes = []
         for (let i = 0; i < noteUUIDs.length; i++) {
           const readNote = await idb.read(noteUUIDs[i], state.idbStore)
           testNotes.push(readNote)
+          if (i % 2 === 0) {
+            for (const note of testNotes) {
+              commit('addNote', note)
+            }
+            testNotes = []
+          }
+
           /* commit('addNote', readNote) */
           /* console.log('localnote') */
         }
         dispatch('setTags')
-        commit('setState', { name: 'notes', value: testNotes.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())) })
+        /*  commit('setState', { name: 'notes', value: testNotes.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())) }) */
         if (state.loading.localNotes) {
           commit('setLoading', { load: 'localNotes', isLoading: false })
         }

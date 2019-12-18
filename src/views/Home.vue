@@ -27,10 +27,10 @@
         </div>
       </div>
     </div>
-    <Loading
+    <!--     <Loading
       v-if="loading"
       class="bg-coolnote"
-    />
+    /> -->
     <div
       v-show="showModal"
       class="overflow-auto modal"
@@ -45,12 +45,11 @@
 
 <script>
 import Note from '@/components/Note/Note'
-import { Loading } from '@coollabsio/developer-kit'
 import { PlusIcon } from 'vue-feather-icons'
 
 export default {
   name: 'Home',
-  components: { Note, Loading, PlusIcon },
+  components: { Note, PlusIcon },
   data () {
     return {
       showModal: this.$route.meta.showModal,
