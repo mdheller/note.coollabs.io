@@ -75,9 +75,9 @@ export default new Vuex.Store({
           if (i % 2 === 0) {
             for (const note of testNotes) {
               commit('addNote', note)
-              if (state.loading.localNotes) {
-                commit('setLoading', { load: 'localNotes', isLoading: false })
-              }
+            }
+            if (state.loading.localNotes) {
+              commit('setLoading', { load: 'localNotes', isLoading: false })
             }
             testNotes = []
           }
