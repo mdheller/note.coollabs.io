@@ -21,7 +21,7 @@
         </div>
         <div
           v-show="selectedTag === null && $route.path !== '/profile' && $route.path !== '/feature-board' && $route.path !== '/settings'"
-          class="mx-auto my-auto animated fadeInDown faster"
+          class="w-full mx-auto my-auto"
         >
           <b-field class>
             <b-input

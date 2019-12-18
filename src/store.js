@@ -72,7 +72,7 @@ export default new Vuex.Store({
         for (let i = 0; i < noteUUIDs.length; i++) {
           const readNote = await idb.read(noteUUIDs[i], state.idbStore)
           testNotes.push(readNote)
-          if (i % 2 === 0) {
+          /*           if (i % 3 === 0) {
             for (const note of testNotes) {
               commit('addNote', note)
             }
@@ -80,13 +80,16 @@ export default new Vuex.Store({
               commit('setLoading', { load: 'localNotes', isLoading: false })
             }
             testNotes = []
-          }
+          } */
 
           /* commit('addNote', readNote) */
           /* console.log('localnote') */
         }
+        if (state.loading.localNotes) {
+          commit('setLoading', { load: 'localNotes', isLoading: false })
+        }
         dispatch('setTags')
-        /*  commit('setState', { name: 'notes', value: testNotes.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())) }) */
+        commit('setState', { name: 'notes', value: testNotes.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())) })
       } else {
         commit('setLoading', { load: 'localNotes', isLoading: false })
       }
