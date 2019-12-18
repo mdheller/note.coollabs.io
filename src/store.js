@@ -75,7 +75,7 @@ export default new Vuex.Store({
           /* console.log('localnote') */
         }
         dispatch('setTags')
-        commit('setState', { name: 'notes', value: testNotes })
+        commit('setState', { name: 'notes', value: testNotes.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())) })
         if (state.loading.localNotes) {
           commit('setLoading', { load: 'localNotes', isLoading: false })
         }
