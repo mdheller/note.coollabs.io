@@ -114,7 +114,7 @@ export default {
   transition: 0.2s
   column-gap: 0
   column-count:1
-
+  @apply pb-5
   @screen sm
     column-count: 2
   @screen md

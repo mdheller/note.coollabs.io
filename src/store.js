@@ -75,6 +75,9 @@ export default new Vuex.Store({
           if (i % 2 === 0) {
             for (const note of testNotes) {
               commit('addNote', note)
+              if (state.loading.localNotes) {
+                commit('setLoading', { load: 'localNotes', isLoading: false })
+              }
             }
             testNotes = []
           }
@@ -84,9 +87,6 @@ export default new Vuex.Store({
         }
         dispatch('setTags')
         /*  commit('setState', { name: 'notes', value: testNotes.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())) }) */
-        if (state.loading.localNotes) {
-          commit('setLoading', { load: 'localNotes', isLoading: false })
-        }
       } else {
         commit('setLoading', { load: 'localNotes', isLoading: false })
       }
