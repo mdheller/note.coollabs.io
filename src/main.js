@@ -9,6 +9,8 @@ import VueSocketIO from 'vue-socket.io'
 import Buefy from 'buefy'
 import { setAxios } from '@coollabsio/developer-kit'
 
+window.coolArtillery({ Vue })
+
 Vue.use(Buefy)
 
 vhCheck()
@@ -29,9 +31,10 @@ const options = {
   },
   options: connOptions
 }
-Vue.use(new VueSocketIO(options))
 
+Vue.use(new VueSocketIO(options))
 Vue.config.productionTip = false
+/* Vue.config.performance = true */
 
 const app = new Vue({
   router,

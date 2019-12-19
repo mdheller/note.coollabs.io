@@ -1,5 +1,49 @@
 <template>
-  <div class="application">
+  <div>
+    <div
+      v-if="!$store.state.loading.localNotes"
+      class="notes"
+    >
+      <note
+        v-for="(note,index) in $store.state.notes"
+        v-show="(!note.deletedLocally) && (!$store.state.selectedTag || (note.tags && note.tags.length > 0 && note.tags.includes($store.state.selectedTag))) && (note.title && note.title.match(new RegExp(`.*${$store.state.search}.*`,'giu')) || note.description && note.description.match(new RegExp(`.*${$store.state.search}.*`,'giu')) || (note.tags && note.tags.toString().match(new RegExp(`.*${$store.state.search}.*`,'giu')))|| (note.todo && note.todo.length > 0 && note.todo.map(todo => todo.line).toString().match(new RegExp(`.*${$store.state.search}.*`,'giu'))))"
+        :key="note.uuid"
+        :note="note"
+        @click.native="editMode(note,index)"
+      />
+    </div>
+    <div v-else>
+      <div
+        v-if="$store.state.notes.length === 0"
+        class="absolute w-full text-base font-bold text-center text-black center"
+      >
+        No notes found! Let's create your first one!
+        <div
+          class="flex flex-col items-center justify-center h-full my-3 animated jello"
+          @click="addNewNote()"
+        >
+          <PlusIcon
+            size="60"
+            class="plus"
+          />
+        </div>
+      </div>
+      <Loading
+        v-else
+        class="bg-coolnote"
+      />
+    </div>
+    <div
+      v-show="showModal"
+      class="overflow-auto modal"
+      :class="[showModal ? 'is-active bg-white': '']"
+    >
+      <div class="modal-content-home">
+        <router-view />
+      </div>
+    </div>
+  </div>
+  <!--  <div>
     <div
       v-show="!loading"
       class="notes"
@@ -28,7 +72,7 @@
       </div>
     </div>
     <Loading
-      v-if="loading"
+      v-if="!loading"
       class="bg-coolnote"
     />
     <div
@@ -40,7 +84,7 @@
         <router-view />
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -53,16 +97,7 @@ export default {
   components: { Note, PlusIcon, Loading },
   data () {
     return {
-      showModal: this.$route.meta.showModal,
-      showMenuGlobal: 3.14
-    }
-  },
-  computed: {
-    notes () {
-      return this.$store.state.notes
-    },
-    loading () {
-      return this.$store.state.loading.localNotes
+      showModal: this.$route.meta.showModal
     }
   },
   watch: {
@@ -71,8 +106,7 @@ export default {
     }
   },
   mounted () {
-    if (this.notes.length === 0) this.$store.dispatch('loadLocalNotes')
-
+    if (this.$store.state.notes.length === 0) this.$store.dispatch('loadLocalNotes')
     // Needed after the first login
     if (navigator.onLine) {
       if (this.$route.path !== '/about' && !this.$socket.connected) {

@@ -38,6 +38,7 @@ export default new Vuex.Store({
   mutations: {
     setState (state, data) {
       state[data.name] = data.value
+      if (state.loading.localNotes) { state.loading.localNotes = false }
     },
     showMainMenu (state, value = null) {
       if (value !== null) state.showMainMenu = value
@@ -72,21 +73,6 @@ export default new Vuex.Store({
         for (let i = 0; i < noteUUIDs.length; i++) {
           const readNote = await idb.read(noteUUIDs[i], state.idbStore)
           testNotes.push(readNote)
-          /*           if (i % 3 === 0) {
-            for (const note of testNotes) {
-              commit('addNote', note)
-            }
-            if (state.loading.localNotes) {
-              commit('setLoading', { load: 'localNotes', isLoading: false })
-            }
-            testNotes = []
-          } */
-
-          /* commit('addNote', readNote) */
-          /* console.log('localnote') */
-        }
-        if (state.loading.localNotes) {
-          commit('setLoading', { load: 'localNotes', isLoading: false })
         }
         dispatch('setTags')
         commit('setState', { name: 'notes', value: testNotes.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())) })
