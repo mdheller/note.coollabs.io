@@ -138,7 +138,7 @@ export default {
       }
       if (to.name === 'Profile' || to.name === 'FeatureBoard' || to.name === 'SettingsView') {
         /* this.$store.commit('setState', { name: 'notes', value: [] }) */
-        this.$store.commit('setState', { name: 'tags', value: [] })
+        /* this.$store.commit('setState', { name: 'tags', value: [] }) */
       }
     }
   },
