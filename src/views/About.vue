@@ -41,13 +41,14 @@
         </div>
       </template>
     </landing-page>
+    <Footer class="text-white bg-coolnoteover" />
   </div>
 </template>
 
 <script>
-import { Fact, LandingPage } from '@coollabsio/developer-kit'
+import { Fact, LandingPage, Footer } from '@coollabsio/developer-kit'
 export default {
   name: 'About',
-  components: { Fact, LandingPage }
+  components: { Fact, LandingPage, Footer }
 }
 </script>
