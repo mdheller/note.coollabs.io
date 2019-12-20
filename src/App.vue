@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <main id="app">
     <navbar
-      v-if="$route.name !== 'About' && !editMode"
+      v-if="$route.name !== 'About' && !editMode "
       has-things-before-menu
     >
       <template v-slot:brand>
@@ -91,7 +91,7 @@
       />
       <router-view v-else />
     </transition>
-  </div>
+  </main>
 </template>
 <script>
 import { Navbar } from '@coollabsio/developer-kit'

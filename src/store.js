@@ -19,7 +19,7 @@ export default new Vuex.Store({
       store: 'coolNoteStore'
     },
     loading: {
-      remoteNotes: false,
+      remoteNotes: true,
       localNotes: true,
       sharing: false
     },

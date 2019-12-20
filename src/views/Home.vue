@@ -2,20 +2,11 @@
   <div>
     <div
       v-if="!$store.state.loading.localNotes"
-      class="notes"
+      class="notes transition"
     >
-      <note
-        v-for="(note,index) in $store.state.notes"
-        v-show="(!note.deletedLocally) && (!$store.state.selectedTag || (note.tags && note.tags.length > 0 && note.tags.includes($store.state.selectedTag))) && (note.title && note.title.match(new RegExp(`.*${$store.state.search}.*`,'giu')) || note.description && note.description.match(new RegExp(`.*${$store.state.search}.*`,'giu')) || (note.tags && note.tags.toString().match(new RegExp(`.*${$store.state.search}.*`,'giu')))|| (note.todo && note.todo.length > 0 && note.todo.map(todo => todo.line).toString().match(new RegExp(`.*${$store.state.search}.*`,'giu'))))"
-        :key="note.uuid"
-        :note="note"
-        @click.native="editMode(note,index)"
-      />
-    </div>
-    <div v-else>
       <div
-        v-if="$store.state.notes.length === 0"
-        class="absolute w-full text-base font-bold text-center text-black center"
+        v-if="$store.state.notes.length === 0 && !$store.state.loading.remoteNotes"
+        class="absolute w-full text-base font-bold text-center text-black center transition"
       >
         No notes found! Let's create your first one!
         <div
@@ -28,11 +19,24 @@
           />
         </div>
       </div>
-      <Loading
-        v-else
-        class="bg-coolnote"
+      <note
+        v-for="(note,index) in $store.state.notes"
+        v-show="(!note.deletedLocally) && (!$store.state.selectedTag || (note.tags && note.tags.length > 0 && note.tags.includes($store.state.selectedTag))) && (note.title && note.title.match(new RegExp(`.*${$store.state.search}.*`,'giu')) || note.description && note.description.match(new RegExp(`.*${$store.state.search}.*`,'giu')) || (note.tags && note.tags.toString().match(new RegExp(`.*${$store.state.search}.*`,'giu')))|| (note.todo && note.todo.length > 0 && note.todo.map(todo => todo.line).toString().match(new RegExp(`.*${$store.state.search}.*`,'giu'))))"
+        :key="note.uuid"
+        :note="note"
+        @click.native="editMode(note,index)"
       />
     </div>
+    <div
+      v-if="$store.state.loading.localNotes || ($store.state.notes.length === 0 && $store.state.loading.remoteNotes)"
+      class="absolute flex justify-center w-full text-center center transition"
+    >
+      <LoaderIcon
+        size="50"
+        class="text-coolnote loading"
+      />
+    </div>
+
     <div
       v-show="showModal"
       class="overflow-auto modal"
@@ -89,12 +93,11 @@
 
 <script>
 import Note from '@/components/Note/Note'
-import { PlusIcon } from 'vue-feather-icons'
-import { Loading } from '@coollabsio/developer-kit'
+import { PlusIcon, LoaderIcon } from 'vue-feather-icons'
 
 export default {
   name: 'Home',
-  components: { Note, PlusIcon, Loading },
+  components: { Note, PlusIcon, LoaderIcon },
   data () {
     return {
       showModal: this.$route.meta.showModal
@@ -116,6 +119,7 @@ export default {
     } else {
       if (this.$socket.connected) this.$socket.disconnect()
       this.$store.commit('setState', { name: 'isOnline', value: false })
+      this.$store.commit('setLoading', { load: 'remoteNotes', isLoading: false })
     }
   },
   methods: {
