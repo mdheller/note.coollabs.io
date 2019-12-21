@@ -38,7 +38,9 @@ export default new Vuex.Store({
   mutations: {
     setState (state, data) {
       state[data.name] = data.value
-      if (state.loading.localNotes) { state.loading.localNotes = false }
+      if (data.name === 'notes' && state.loading.localNotes) {
+        state.loading.localNotes = false
+      }
     },
     showMainMenu (state, value = null) {
       if (value !== null) state.showMainMenu = value

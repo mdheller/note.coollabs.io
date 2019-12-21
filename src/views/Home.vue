@@ -28,13 +28,14 @@
       />
     </div>
     <div
-      v-if="$store.state.loading.localNotes || ($store.state.notes.length === 0 && $store.state.loading.remoteNotes)"
-      class="absolute flex justify-center w-full text-center center transition"
+      v-show="$store.state.loading.localNotes || ($store.state.notes.length === 0 && $store.state.loading.remoteNotes)"
     >
-      <LoaderIcon
-        size="50"
-        class="text-coolnote loading"
-      />
+      <div class="absolute flex justify-center w-full text-center center transition">
+        <LoaderIcon
+          size="50"
+          class="text-coolnote loading"
+        />
+      </div>
     </div>
 
     <div
