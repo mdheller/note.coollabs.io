@@ -147,6 +147,7 @@ export default {
     } else {
       if (this.$socket.connected) this.$socket.disconnect()
       this.$store.commit('setState', { name: 'isOnline', value: false })
+      this.$store.commit('setLoading', { load: 'remoteNotes', isLoading: false })
     }
     window.addEventListener('online', this.updateOnlineStatus)
     window.addEventListener('offline', this.updateOnlineStatus)
