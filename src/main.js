@@ -6,12 +6,13 @@ import './registerServiceWorker'
 import axios from 'axios'
 import vhCheck from 'vh-check'
 import VueSocketIO from 'vue-socket.io'
-import Buefy from 'buefy'
 import { setAxios } from '@coollabsio/developer-kit'
-
 window.coolArtillery({ Vue })
 
-Vue.use(Buefy)
+if (window.Buefy) {
+  Vue.use(window.Buefy.Input)
+  Vue.use(window.Buefy.Field)
+}
 
 vhCheck()
 

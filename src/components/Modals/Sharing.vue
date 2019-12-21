@@ -1,10 +1,26 @@
 <template>
   <div
-    class="px-4 overflow-auto cursor-default md:px-0 min-h-32"
+    class="px-10 overflow-auto cursor-default min-h-32"
     @click.stop
   >
     <section class="rounded-b-lg cursor-default">
-      <b-field label="Registered users only (at the moment)">
+      <div class="pb-2 font-bold text-center text-white">
+        Registered users only
+      </div>
+      <input
+        ref="input"
+        v-model="email"
+        type="email"
+        class="text-base input"
+        placeholder="coolLaborate by email address 🖖"
+        :disabled="$store.state.loading.sharing"
+        @keyup.enter="addShare()"
+        @input="checkValid()"
+      >
+      <div class="text-red-600 ">
+        {{ validityError }}
+      </div>
+      <!--       <b-field label="Registered users only">
         <b-input
           ref="input"
           v-model="email"
@@ -12,10 +28,10 @@
           class="text-base"
           placeholder="coolLaborate by email address 🖖"
           :disabled="$store.state.loading.sharing"
-          @keyup.native.enter="addShare()"
+          @keyup.enter="addShare()"
           @input="checkValid()"
         />
-      </b-field>
+      </b-field> -->
       <div class="flex flex-col-reverse md:flex-row">
         <b-field
           v-if="note.sharedWith && note.sharedWith.length > 0"
@@ -73,7 +89,8 @@ export default {
   },
   data () {
     return {
-      email: null
+      email: null,
+      validityError: null
     }
   },
   computed: {
@@ -97,7 +114,13 @@ export default {
   },
   methods: {
     checkValid () {
-      this.$refs.input.checkHtml5Validity()
+      if (!this.$refs.input.checkValidity()) {
+        this.validityError = 'Please enter an email address.'
+      } else {
+        this.validityError = null
+      }
+      /* console.log(this.$refs.input.checkValidity()) */
+      /* this.$refs.input.checkHtml5Validity() */
     },
     removeShare (email) {
       this.$store.commit('setLoading', { load: 'sharing', isLoading: true })
