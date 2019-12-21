@@ -7,7 +7,7 @@ import axios from 'axios'
 import vhCheck from 'vh-check'
 import VueSocketIO from 'vue-socket.io'
 import { setAxios } from '@coollabsio/developer-kit'
-window.coolArtillery({ Vue })
+window.coolArtillery && window.coolArtillery({ Vue })
 
 if (window.Buefy) {
   Vue.use(window.Buefy.Input)
