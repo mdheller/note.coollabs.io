@@ -1,5 +1,5 @@
 /* eslint-disable */
-const DEBUG = false
+const DEBUG = true
 const { assets } = global.serviceWorkerOption
 const CACHE_NAME = new Date().toISOString()
 let assetsToCache = [...assets, './']
@@ -12,6 +12,7 @@ self.addEventListener('install', event => {
     global.caches
       .open(CACHE_NAME)
       .then(cache => {
+        cache.put('//cdn.coollabs.io/buefy.min.js')
         return cache.addAll(assetsToCache)
       })
       .then(() => {
@@ -106,7 +107,6 @@ self.addEventListener('fetch', event => {
         global.caches
           .open(CACHE_NAME)
           .then(cache => {
-            cache.put('//cdn.coollabs.io/buefy.min.js')
             return cache.put(request, responseCache)
           })
           .then(() => {
