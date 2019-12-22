@@ -12,6 +12,7 @@ self.addEventListener('install', event => {
     global.caches
       .open(CACHE_NAME)
       .then(cache => {
+        cache.add('//cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js')
         return cache.addAll(assetsToCache)
       })
       .then(() => {
@@ -66,12 +67,12 @@ self.addEventListener('fetch', event => {
   const requestUrl = new URL(request.url)
 
   // Ignore difference origin.
-  if (requestUrl.origin !== location.origin) {
+/*   if (requestUrl.origin !== location.origin) {
     if (DEBUG) {
       console.log(`[SW] Ignore difference origin ${requestUrl.origin}`)
     }
     return
-  }
+  } */
 
   const resource = global.caches.match(request).then(response => {
     if (response) {
