@@ -12,7 +12,7 @@ self.addEventListener('install', event => {
     global.caches
       .open(CACHE_NAME)
       .then(cache => {
-        cache.add('//cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js')
+        cache.add('//cdn.coollabs.io/buefy.min.js')
         return cache.addAll(assetsToCache)
       })
       .then(() => {
