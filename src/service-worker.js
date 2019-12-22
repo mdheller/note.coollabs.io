@@ -72,7 +72,7 @@ self.addEventListener('fetch', event => {
 
   // Ignore difference origin.
   const regex = RegExp('cdn\.coollabs\.io*');
-  if (!regex.test(requestUrl.origin)) {
+  if (!regex.test(requestUrl.origin && requestUrl.origin !== location.origin) ) {
     if (DEBUG) {
       console.log(`[SW] Ignore difference origin ${requestUrl.origin}`)
     }
