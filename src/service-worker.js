@@ -12,7 +12,7 @@ self.addEventListener('install', event => {
     global.caches
       .open(CACHE_NAME)
       .then(cache => {
-        cache.add('//cdn.coollabs.io/buefy.min.js')
+        cache.add('https://cdn.coollabs.io/buefy.min.js')
         return cache.addAll(assetsToCache)
       })
       .then(() => {
