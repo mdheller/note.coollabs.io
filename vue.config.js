@@ -23,16 +23,7 @@ module.exports = {
             keyframes: true,
             /* defaultExtractor: content => content.match(/[A-Za-z0-9-_/:]*[A-Za-z0-9-_/]+/g) || [], */
             content: ['./public/**/*.html', './src/**/*.vue', './node_modules/@coollabsio/developer-kit/dist/developer-kit.umd.js'],
-            whitelist: ['fade-enter-active', 'fade-leave-active', 'fade-enter', 'fade-leave-to', 'v-lazy-image-loaded', 'alertify'],
-            whitelistPatternsChildren: [
-              /field.*/,
-              /control.*/,
-              /notices.*/,
-              /toast.*/,
-              /fade.*/,
-              /zoom.*/,
-              /help.*/
-            ]
+            whitelist: ['fade-enter-active', 'fade-leave-active', 'fade-enter', 'fade-leave-to', 'v-lazy-image-loaded']
           })
         ]
       }
