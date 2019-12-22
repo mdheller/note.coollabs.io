@@ -71,12 +71,13 @@ self.addEventListener('fetch', event => {
   const requestUrl = new URL(request.url)
 
   // Ignore difference origin.
-/*   if (requestUrl.origin !== location.origin) {
+  const regex = RegExp('cdn\.coollabs\.io*');
+  if (!regex.test(requestUrl.origin)) {
     if (DEBUG) {
       console.log(`[SW] Ignore difference origin ${requestUrl.origin}`)
     }
     return
-  } */
+  }
 
   const resource = global.caches.match(request).then(response => {
     if (response) {
