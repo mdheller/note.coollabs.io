@@ -2,7 +2,7 @@
 const DEBUG = true
 const { assets } = global.serviceWorkerOption
 const CACHE_NAME = new Date().toISOString()
-let assetsToCache = [...assets, './', 'https://cdn.coollabs.io/buefy.min.js']
+let assetsToCache = [...assets, './']
 assetsToCache = assetsToCache.map(path => {
   return new URL(path, global.location).toString()
 })
