@@ -19,13 +19,13 @@ if (process.env.NODE_ENV === 'production') {
                   var text = document.createElement('div')
                   var button = document.createElement('div')
 
-                  elem.style.cssText = 'position:fixed;bottom:0;right:0;background-color:#242629;margin:10px;border-radius:.5rem;font-weight:700;box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);min-width:320px;font-family:monospace;color:white;cursor:pointer;z-index:99999;text-align:center;'
+                  elem.style.cssText = 'position:fixed;bottom:0;right:0;background-color:rgba(36, 38, 41, 0.9);margin:10px;border-radius:.5rem;font-weight:700;box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);min-width:320px;font-family:monospace;color:white;cursor:pointer;z-index:99999'
 
                   text.innerHTML = 'A new version is available!'
-                  text.style.cssText = 'padding:10px;font-size:15px;text-align:center;'
+                  text.style.cssText = 'padding-top:10px;font-size:12px'
 
-                  button.innerHTML = 'Click to load the latest!'
-                  button.style.cssText = 'margin:10px;background-color:transparent;border:0;color:white'
+                  button.innerHTML = 'Click to refresh!'
+                  button.style.cssText = 'padding:10px;background-color:transparent;border:0;color:white;font-size:10px'
 
                   document.body.appendChild(elem)
                   elem.appendChild(text)
