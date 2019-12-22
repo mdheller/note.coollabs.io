@@ -796,10 +796,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@coollabsio/developer-kit@^1.0.10":
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/@coollabsio/developer-kit/-/developer-kit-1.0.10.tgz#c876f178624999eb47a4ab98e4ff6f289f96c5f5"
-  integrity sha512-l1LKuFDC3i5ZSIAX0rDyH9oDh5k65NTFNi/8PqGWwelnmQNoZji6B2wl/CmI2dP0ZceR5Y0/kCWElnnmEstkxA==
+"@coollabsio/developer-kit@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@coollabsio/developer-kit/-/developer-kit-1.0.13.tgz#563071c4a518b1febd4cac20db4c4a9eb4f3e983"
+  integrity sha512-Qb+qBFXinUgA0Ahjs4+aOCZsyq2ey+Y6TJMWPYsWJuvxd2lDdnULxm4BOUdPAJ+h3yRE03zsuYeOOQ/6CYH23Q==
   dependencies:
     alertify.js "^1.0.12"
     animate.css "^3.7.2"
@@ -2148,6 +2148,13 @@ browserslist@^4.7.3:
     electron-to-chromium "^1.3.306"
     node-releases "^1.1.40"
 
+buefy@^0.8.8:
+  version "0.8.8"
+  resolved "https://registry.yarnpkg.com/buefy/-/buefy-0.8.8.tgz#dc6a26c74793a6e28ee435d5ee06bdfe811dc9f4"
+  integrity sha512-kTUnroPBLm998KFZbeJuUgJV+nJbDUJxw1c8gzeJoe+Mve73Nb3hi6AZpgrIH8FtXmh5r8nMBYBqwN54EtPWXg==
+  dependencies:
+    bulma "0.7.5"
+
 buffer-from@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
@@ -2181,6 +2188,11 @@ builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
   integrity sha1-hZgoeOIbmOHGZCXgPQF0eI9Wnug=
+
+bulma@0.7.5:
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.5.tgz#35066c37f82c088b68f94450be758fc00a967208"
+  integrity sha512-cX98TIn0I6sKba/DhW0FBjtaDpxTelU166pf7ICXpCCuplHWyu6C9LYZmL5PEsnePIeJaiorsTEzzNk3Tsm1hw==
 
 bulma@^0.8.0:
   version "0.8.0"
@@ -8152,11 +8164,6 @@ regexpu-core@^4.6.0:
     regjsparser "^0.6.0"
     unicode-match-property-ecmascript "^1.0.4"
     unicode-match-property-value-ecmascript "^1.1.0"
-
-register-service-worker@^1.6.2:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/register-service-worker/-/register-service-worker-1.6.2.tgz#9297e54c205c371c6e49bfa88f6997e8dd315f4c"
-  integrity sha512-I8L87fX2TK29LDx+wgyOUh2BJ3rDIRC1FtRZEHeP3rivzDv6p1DDZLGGtPucqjEkm45+2crtFIFssEWv56+9Wg==
 
 registry-auth-token@^3.0.1:
   version "3.4.0"

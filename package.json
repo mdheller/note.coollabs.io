@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "autosize": "^4.0.2",
+    "buefy": "^0.8.8",
     "core-js": "^3.5.0",
     "lodash.debounce": "^4.0.8",
     "uuid": "^3.3.3",

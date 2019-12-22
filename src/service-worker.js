@@ -12,11 +12,6 @@ self.addEventListener('install', event => {
     global.caches
       .open(CACHE_NAME)
       .then(cache => {
-        cache.add('https://cdn.coollabs.io/buefy.min.css')
-        cache.add('https://cdn.coollabs.io/buefy.min.js')
-        cache.add('https://cdn.coollabs.io/save.js')
-        cache.add('https://cdn.coollabs.io/artillery.js')
-        cache.add('https://cdn.coollabs.io/img/coolLabs.svg')
         return cache.addAll(assetsToCache)
       })
       .then(() => {
