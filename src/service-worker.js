@@ -106,6 +106,7 @@ self.addEventListener('fetch', event => {
         global.caches
           .open(CACHE_NAME)
           .then(cache => {
+            cache.put('//cdn.coollabs.io/buefy.min.js')
             return cache.put(request, responseCache)
           })
           .then(() => {
