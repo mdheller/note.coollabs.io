@@ -1,5 +1,5 @@
 /* eslint-disable */
-const DEBUG = true
+const DEBUG = false
 const { assets } = global.serviceWorkerOption
 const CACHE_NAME = new Date().toISOString()
 let assetsToCache = [...assets, './']
