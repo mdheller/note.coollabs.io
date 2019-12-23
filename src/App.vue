@@ -126,10 +126,10 @@ export default {
         this.editMode = false
         document.documentElement.classList.remove('overflow-hidden')
       }
-      /*       if (to.name === 'Profile' || to.name === 'FeatureBoard' || to.name === 'SettingsView') {
+      if (to.name === 'Profile' || to.name === 'FeatureBoard' || to.name === 'SettingsView') {
         this.$store.commit('setState', { name: 'notes', value: [] })
         this.$store.commit('setState', { name: 'tags', value: [] })
-      } */
+      }
     }
   },
   async created () {

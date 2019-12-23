@@ -19,6 +19,14 @@
           />
         </div>
       </div>
+      <div v-if="$store.state.notes.length === 0 && $store.state.loading.remoteNotes">
+        <div class="absolute flex justify-center w-full text-center center transition">
+          <LoaderIcon
+            size="50"
+            class="text-coolnote loading"
+          />
+        </div>
+      </div>
       <note
         v-for="(note,index) in $store.state.notes"
         v-show="(!note.deletedLocally) && (!$store.state.selectedTag || (note.tags && note.tags.length > 0 && note.tags.includes($store.state.selectedTag))) && (note.title && note.title.match(new RegExp(`.*${$store.state.search}.*`,'giu')) || note.description && note.description.match(new RegExp(`.*${$store.state.search}.*`,'giu')) || (note.tags && note.tags.toString().match(new RegExp(`.*${$store.state.search}.*`,'giu')))|| (note.todo && note.todo.length > 0 && note.todo.map(todo => todo.line).toString().match(new RegExp(`.*${$store.state.search}.*`,'giu'))))"
@@ -27,9 +35,7 @@
         @click.native="editMode(note,index)"
       />
     </div>
-    <div
-      v-show="$store.state.loading.localNotes || ($store.state.notes.length === 0 && $store.state.loading.remoteNotes)"
-    >
+    <div v-else>
       <div class="absolute flex justify-center w-full text-center center transition">
         <LoaderIcon
           size="50"
@@ -67,7 +73,10 @@ export default {
     }
   },
   mounted () {
-    if (this.$store.state.notes.length === 0) this.$store.dispatch('loadLocalNotes')
+    if (this.$store.state.notes.length === 0) {
+      this.$store.commit('setLoading', { load: 'localNotes', isLoading: true })
+      this.$store.dispatch('loadLocalNotes')
+    }
     // Needed after the first login
     if (navigator.onLine) {
       if (this.$route.path !== '/about' && !this.$socket.connected) {
