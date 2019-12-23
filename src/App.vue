@@ -1,45 +1,40 @@
 <template>
-  <div
-    id="app"
-    :class="{ 'overflow-hidden': overflow }"
-  >
+  <main id="app">
     <navbar
-      v-if="$route.path !== '/about' && !navbar"
-      :navbar-class="$route.path !== '/profile' && $route.path !== '/feature-board' ? 'navbar-shadow bg-coolnote' : 'bg-coolnote'"
+      v-if="$route.name !== 'About' && !editMode "
       has-things-before-menu
     >
       <template v-slot:brand>
         <div class="cursor-pointer navbar-item">
           <edit-3-icon
-            v-show="$route.path !== '/profile' && $route.path !== '/feature-board'"
+            v-show="$route.path !== '/profile' && $route.path !== '/feature-board' && $route.path !== '/settings'"
             size="30"
             class="mx-1 my-auto animated jackInTheBox faster navbar-icon"
             @click.stop="addNewNote()"
           />
           <arrow-left-icon
-            v-show="$route.path === '/profile' || $route.path === '/feature-board'"
+            v-show="$route.path === '/profile' || $route.path === '/feature-board' || $route.path === '/settings'"
             size="30"
             class="mx-1 my-auto animated jackInTheBox faster navbar-icon"
             @click="$store.commit('coolStore/goBack',$router)"
           />
         </div>
         <div
-          v-show="selectedTag === null && $route.path !== '/profile' && $route.path !== '/feature-board'"
-          class="mx-auto my-auto animated fadeInDown faster"
+          v-show="$store.state.selectedTag === null && $route.path !== '/profile' && $route.path !== '/feature-board' && $route.path !== '/settings'"
+          class="w-full pr-3 mx-auto my-auto"
         >
-          <b-field class>
-            <b-input
-              v-model="search"
-              type="search"
-              placeholder="Quick search"
-              :disabled="false || $store.state.loading.remoteNotes"
-              @keyup.esc.native.stop
-              @keyup.esc.native="search = ''"
-            />
-          </b-field>
+          <input
+            v-model="search"
+            class="input"
+            type="search"
+            placeholder="Quick search"
+            :disabled="false || $store.state.loading.remoteNotes"
+            @keyup.esc.stop
+            @keyup.esc="search = ''"
+          >
         </div>
         <div
-          v-if="selectedTag && $route.path !== '/profile' && $route.path !== '/feature-board'"
+          v-if="$store.state.selectedTag && $route.path !== '/profile' && $route.path !== '/feature-board' && $route.path !== '/settings'"
           class="flex my-auto text-white cursor-pointer animated fadeIn faster hover:text-red-600 hideshowtruncate"
           @click="unSelectTag()"
         >
@@ -48,7 +43,7 @@
             class="my-auto"
           />
           <div class="text-base font-semibold md:text-xl">
-            {{ selectedTag }}
+            {{ $store.state.selectedTag }}
           </div>
         </div>
       </template>
@@ -58,21 +53,21 @@
           :class="[$store.state.isOnline && $store.state.connected ? 'bg-coollime rubberBand' : 'bg-red-500 heartBeat fast']"
         >
           <div
-            v-if="loadingRemoteNotes"
+            v-if="$store.state.loading.remoteNotes"
             class="relative dual-ring-loading"
           />
         </div>
       </template>
       <template
-        v-if="tags.length > 0"
+        v-if="$store.state.tags.length > 0"
         v-slot:menu-items-first
       >
         <div class="scrollable lg:mt-2">
           <div
-            v-for="(tag,index) in tags"
+            v-for="(tag,index) in $store.state.tags"
             :key="index"
             class="nav-item"
-            :class="[selectedTag === tag ? 'border-l-2 rounded-none border-coolgreen' : '']"
+            :class="[$store.state.selectedTag === tag ? 'border-l-2 rounded-none border-coolgreen' : '']"
             @click.stop
             @click="selectTag(tag)"
           >
@@ -90,13 +85,12 @@
       mode="out-in"
     >
       <router-view
-             v-if="$route.path !== '/about'"
-        class="min-h-full"
-        :class="{'pt-navbar': $route.path !== '/about'}"
+        v-if="$route.path !== '/about'"
+        :class="{'mt-navbar': $route.path !== '/about'}"
       />
       <router-view v-else />
     </transition>
-  </div>
+  </main>
 </template>
 <script>
 import { Navbar } from '@coollabsio/developer-kit'
@@ -106,8 +100,7 @@ export default {
   components: { Navbar, Edit3Icon, ArrowLeftIcon, HashIcon },
   data () {
     return {
-      overflow: false,
-      navbar: false
+      editMode: true
     }
   },
   computed: {
@@ -122,37 +115,26 @@ export default {
           left: 0
         })
       }
-    },
-    loadingRemoteNotes () {
-      return this.$store.state.loading.remoteNotes
-    },
-    selectedTag () {
-      return this.$store.state.selectedTag
-    },
-    tags () {
-      return this.$store.state.tags
     }
   },
   watch: {
     $route (to, from) {
-      if (to.name === 'Home') {
-        this.navbar = false
-      }
       if (to.name === 'Edit') {
-        this.navbar = true
-        this.overflow = true
+        this.editMode = true
+        document.documentElement.classList.add('overflow-hidden')
       } else {
-        this.overflow = false
+        this.editMode = false
+        document.documentElement.classList.remove('overflow-hidden')
       }
-      if (to.name === 'Profile' || to.name === 'FeatureBoard') {
+      if (to.name === 'Profile' || to.name === 'FeatureBoard' || to.name === 'SettingsView') {
         this.$store.commit('setState', { name: 'notes', value: [] })
         this.$store.commit('setState', { name: 'tags', value: [] })
       }
     }
   },
   async created () {
-    if (!this.$route.meta.showModal && this.$route.path !== '/profile' && this.$route.path !== '/feature-board') {
-      this.navbar = true
+    if (this.$route.path === '/profile' || this.$route.path === '/feature-board') {
+      this.editMode = false
     }
     await this.$store.dispatch('coolStore/checkLogin', { vue: this, db: { db: 'coolNoteDB', store: 'coolNoteStore' }, app: 'coolNote' })
   },
@@ -165,6 +147,7 @@ export default {
     } else {
       if (this.$socket.connected) this.$socket.disconnect()
       this.$store.commit('setState', { name: 'isOnline', value: false })
+      this.$store.commit('setLoading', { load: 'remoteNotes', isLoading: false })
     }
     window.addEventListener('online', this.updateOnlineStatus)
     window.addEventListener('offline', this.updateOnlineStatus)
@@ -176,7 +159,7 @@ export default {
   methods: {
     selectTag (tag) {
       this.search = ''
-      if (this.selectedTag === tag) {
+      if (this.$store.state.selectedTag === tag) {
         this.$store.commit('setState', { name: 'selectedTag', value: null })
       } else {
         if (tag) {
@@ -212,15 +195,8 @@ export default {
 
 <style lang="sass">
 @import '@coollabsio/developer-kit/styles/sass/main.sass'
-@import "~buefy/src/scss/utils/_all.scss"
-@import "~buefy/src/scss/components/_form.scss"
-@import "~buefy/src/scss/components/_notices.scss"
-@import "~buefy/src/scss/components/_checkbox.scss"
 @import "assets/styles/custom.sass"
 
-html
-  overflow: visible !important
-
 #app, textarea, input
-  @apply font-oxygen antialiased
+  @apply font-oxygen
 </style>

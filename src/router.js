@@ -21,6 +21,14 @@ const router = new Router({
       component: FeatureBoard
     },
     {
+      path: '/settings',
+      name: 'SettingsView',
+      component: () =>
+        import(
+          /* webpackChunkName: "SettingsView", webpackPrefetch: true */ './views/Settings.vue'
+        )
+    },
+    {
       path: '/',
       name: 'Home',
       component: () =>
@@ -42,7 +50,7 @@ const router = new Router({
       component: Profile,
       meta: {
         app: 'coolNote',
-        deletion: false
+        deletion: true
       }
     },
     {
@@ -66,7 +74,7 @@ router.afterEach((to, from) => {
             top: store.state.top,
             left: 0
           })
-          this.$store.commit(
+          store.commit(
             'setState',
             { name: 'top', value: 0 }
           )

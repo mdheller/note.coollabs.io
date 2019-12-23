@@ -1,56 +1,70 @@
 <template>
-  <div class="application">
-    <div class="notes">
-      <div v-show="!loading">
-        <note
-          v-for="(note,index) in notes"
-          v-show="(!note.deletedLocally) && (!$store.state.selectedTag || (note.tags && note.tags.length > 0 && note.tags.includes($store.state.selectedTag))) && (note.title && note.title.match(new RegExp(`.*${$store.state.search}.*`,'gi')) || note.description && note.description.match(new RegExp(`.*${$store.state.search}.*`,'gi')) || (note.tags && note.tags.toString().match(new RegExp(`.*${$store.state.search}.*`,'gi')))|| (note.todo && note.todo.length > 0 && note.todo.map(todo => todo.line).toString().match(new RegExp(`.*${$store.state.search}.*`,'gi'))))"
-          :key="note.uuid"
-          :note="note"
-          @click.native="editMode(note,index)"
-        />
+  <div>
+    <div
+      v-if="!$store.state.loading.localNotes"
+      class="notes transition"
+    >
+      <div
+        v-if="$store.state.notes.length === 0 && !$store.state.loading.remoteNotes"
+        class="absolute w-full text-base font-bold text-center text-black center transition"
+      >
+        No notes found! Let's create your first one!
         <div
-          v-if="notes.length === 0 && !loading"
-          class="absolute w-full text-base font-bold text-center text-black center"
+          class="flex flex-col items-center justify-center h-full my-3 animated jello"
+          @click="addNewNote()"
         >
-          No notes found! Let's create one! 😎
+          <PlusIcon
+            size="60"
+            class="plus"
+          />
         </div>
       </div>
-      <!--       <b-loading
-        :active.sync="$store.state.loading.localNotes"
-        :is-full-page="true"
-      ></b-loading>-->
+      <div v-if="$store.state.notes.length === 0 && $store.state.loading.remoteNotes">
+        <div class="absolute flex justify-center w-full text-center center transition">
+          <LoaderIcon
+            size="50"
+            class="text-coolnote loading"
+          />
+        </div>
+      </div>
+      <note
+        v-for="(note,index) in $store.state.notes"
+        v-show="(!note.deletedLocally) && (!$store.state.selectedTag || (note.tags && note.tags.length > 0 && note.tags.includes($store.state.selectedTag))) && (note.title && note.title.match(new RegExp(`.*${$store.state.search}.*`,'giu')) || note.description && note.description.match(new RegExp(`.*${$store.state.search}.*`,'giu')) || (note.tags && note.tags.toString().match(new RegExp(`.*${$store.state.search}.*`,'giu')))|| (note.todo && note.todo.length > 0 && note.todo.map(todo => todo.line).toString().match(new RegExp(`.*${$store.state.search}.*`,'giu'))))"
+        :key="note.uuid"
+        :note="note"
+        @click.native="editMode(note,index)"
+      />
     </div>
-    <div
-      v-show="showModal"
-      class="overflow-auto  modal"
-      :class="[showModal ? 'is-active bg-white': '']"
-    >
-      <div class="modal-content-home">
-        <router-view />
+    <div v-else>
+      <div class="absolute flex justify-center w-full text-center center transition">
+        <LoaderIcon
+          size="50"
+          class="text-coolnote loading"
+        />
       </div>
     </div>
+    <b-modal
+      :active.sync="showModal"
+      trap-focus
+      full-screen
+      :can-cancel="false"
+      aria-modal
+    >
+      <router-view />
+    </b-modal>
   </div>
 </template>
 
 <script>
 import Note from '@/components/Note/Note'
+import { PlusIcon, LoaderIcon } from 'vue-feather-icons'
 
 export default {
   name: 'Home',
-  components: { Note },
+  components: { Note, PlusIcon, LoaderIcon },
   data () {
     return {
-      showModal: this.$route.meta.showModal,
-      showMenuGlobal: 3.14
-    }
-  },
-  computed: {
-    notes () {
-      return this.$store.state.notes
-    },
-    loading () {
-      return this.$store.state.loading.localNotes
+      showModal: this.$route.meta.showModal
     }
   },
   watch: {
@@ -59,8 +73,10 @@ export default {
     }
   },
   mounted () {
-    if (this.notes.length === 0) this.$store.dispatch('loadLocalNotes')
-
+    if (this.$store.state.notes.length === 0) {
+      this.$store.commit('setLoading', { load: 'localNotes', isLoading: true })
+      this.$store.dispatch('loadLocalNotes')
+    }
     // Needed after the first login
     if (navigator.onLine) {
       if (this.$route.path !== '/about' && !this.$socket.connected) {
@@ -70,9 +86,15 @@ export default {
     } else {
       if (this.$socket.connected) this.$socket.disconnect()
       this.$store.commit('setState', { name: 'isOnline', value: false })
+      this.$store.commit('setLoading', { load: 'remoteNotes', isLoading: false })
     }
   },
   methods: {
+    addNewNote () {
+      this.$store.commit('setState', { name: 'selectedTag', value: null })
+      this.$store.commit('showMainMenu', false)
+      this.$store.dispatch('addNewNote')
+    },
     editMode (note, index) {
       this.$store.commit(
         'setState',
@@ -85,17 +107,8 @@ export default {
 }
 </script>
 <style lang="sass">
-.modal-content-home
-  width: 100%
-  height: 100%
-  margin: 0
-  @apply bg-white
-.center
-  top: 50%
-  left: 50%
-  transform: translate(-50%, -50%)
 .notes
-  transition: 0.5s
+  transition: 0.2s
   column-gap: 0
   column-count:1
   @apply pb-5

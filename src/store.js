@@ -19,7 +19,7 @@ export default new Vuex.Store({
       store: 'coolNoteStore'
     },
     loading: {
-      remoteNotes: false,
+      remoteNotes: true,
       localNotes: true,
       sharing: false
     },
@@ -38,6 +38,9 @@ export default new Vuex.Store({
   mutations: {
     setState (state, data) {
       state[data.name] = data.value
+      if (data.name === 'notes' && state.loading.localNotes) {
+        state.loading.localNotes = false
+      }
     },
     showMainMenu (state, value = null) {
       if (value !== null) state.showMainMenu = value
@@ -67,14 +70,14 @@ export default new Vuex.Store({
     async loadLocalNotes ({ state, commit, dispatch }) {
       const noteUUIDs = await idb.load(state.idbStore)
       if (noteUUIDs.length > 0) {
+        // eslint-disable-next-line prefer-const
+        let testNotes = []
         for (let i = 0; i < noteUUIDs.length; i++) {
           const readNote = await idb.read(noteUUIDs[i], state.idbStore)
-          commit('addNote', readNote)
-          if (state.loading.localNotes) {
-            commit('setLoading', { load: 'localNotes', isLoading: false })
-          }
+          testNotes.push(readNote)
         }
         dispatch('setTags')
+        commit('setState', { name: 'notes', value: testNotes.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())) })
       } else {
         commit('setLoading', { load: 'localNotes', isLoading: false })
       }
@@ -149,16 +152,16 @@ export default new Vuex.Store({
         duration: 2000,
         message: 'User not found!',
         position: 'is-top',
-        type: 'is-danger'
+        type: 'is-coolred'
       })
       commit('setLoading', { load: 'sharing', isLoading: false })
     },
     SOCKET_addedShare ({ commit }, payload) {
       this._vm.$buefy.toast.open({
         duration: 2000,
-        message: `Shared with ${payload.email}! 🎉`,
+        message: `Shared with ${payload.email}!`,
         position: 'is-top',
-        type: 'is-success'
+        type: 'is-coolnote'
       })
       commit('setLoading', { load: 'sharing', isLoading: false })
     },
@@ -168,14 +171,14 @@ export default new Vuex.Store({
           duration: 2000,
           message: 'You removed yourself from the sharing list!',
           position: 'is-top',
-          type: 'is-success'
+          type: 'is-coolnote'
         })
       } else {
         this._vm.$buefy.toast.open({
           duration: 2000,
-          message: `Removed ${email} from sharing! 😱`,
+          message: `Removed ${email} from sharing!`,
           position: 'is-top',
-          type: 'is-danger'
+          type: 'is-coolnote'
         })
       }
 
@@ -195,37 +198,21 @@ export default new Vuex.Store({
         // If user is in home mode and the note is shared, but the sharing is deleted
         if (msg.data && msg.data.sharedWith && !msg.data.sharedWith.includes(email) && msg.data.userUuid !== decoded.jti) {
           dispatch('syncNoteLocally', { note: msg.data, type: 'findAndDelete' })
-          if (!msg.removedMyself) {
-            this._vm.$buefy.toast.open({
-              duration: 4000,
-              message: `'${msg.data.title}' (owned by ${msg.from || 'Unknown but cool'}) is not shared with you anymore! 😱`,
-              position: 'is-top',
-              type: 'is-danger'
-            })
-          }
           if (router.currentRoute && router.currentRoute.path && router.currentRoute.path !== '/' && router.currentRoute.params.noteUuid === msg.data.uuid) {
             router.push('/')
           }
         } else {
           // Not shared notes
-          if (msg.type === 'add') {
+          /*           if (msg.type === 'add') {
             this._vm.$buefy.toast.open({
               duration: 4000,
-              message: `Wow! You have a new shared note from ${msg.from}, called '${msg.data.title}'! 🎉`,
+              message: `Wow! You have a new shared note from ${msg.from}, called '${msg.data.title}'!`,
               position: 'is-top',
-              type: 'is-success'
+              type: 'is-dark'
             })
-          }
+          } */
           if (msg.data.userUuid !== decoded.jti && (!msg.data.sharedWith || !msg.data.sharedWith.includes(email))) {
             dispatch('syncNoteLocally', { note: msg.data, type: 'findAndDelete' })
-            if (!msg.removedMyself) {
-              this._vm.$buefy.toast.open({
-                duration: 4000,
-                message: `'${msg.data.title}' (owned by ${msg.from || 'Unknown but cool'}) is not shared with you anymore! 😱`,
-                position: 'is-top',
-                type: 'is-danger'
-              })
-            }
           } else {
             dispatch('syncNoteLocally', { note: msg.data, type: 'findAndModify' })
           }
@@ -278,14 +265,16 @@ export default new Vuex.Store({
       let noteUUIDs = await idb.load(state.idbStore)
       if (notes && notes.data) {
         if (notes.data.length === 0) {
-          for (const [i, uuid] of noteUUIDs.entries()) {
-            const localNote = await idb.read(uuid, state.idbStore)
-            localNote.deleted = true
-            dispatch('syncNoteLocally', { note: localNote, index: i, type: 'modify' })
+          if (noteUUIDs) {
+            for (const [i, uuid] of noteUUIDs.entries()) {
+              const localNote = await idb.read(uuid, state.idbStore)
+              localNote.deleted = true
+              dispatch('syncNoteLocally', { note: localNote, index: i, type: 'modify' })
+            }
           }
         } else {
           for (const remoteNote of notes.data) {
-            if (noteUUIDs.includes(remoteNote.uuid)) {
+            if (noteUUIDs && noteUUIDs.includes(remoteNote.uuid)) {
               const localNote = await idb.read(remoteNote.uuid, state.idbStore)
               noteUUIDs = noteUUIDs.filter(uuid => uuid !== localNote.uuid)
               if (remoteNote.deleted) {
@@ -301,7 +290,7 @@ export default new Vuex.Store({
           }
         }
         // If note is only available locally
-        if (noteUUIDs.length > 0) {
+        if (noteUUIDs && noteUUIDs.length > 0) {
           for (const uuid of noteUUIDs) {
             // console.log('on cloud it is not available, sync...')
             const localNote = await idb.read(uuid, state.idbStore)
@@ -313,7 +302,7 @@ export default new Vuex.Store({
           }
         }
       } else {
-        if (noteUUIDs.length > 0) {
+        if (noteUUIDs && noteUUIDs.length > 0) {
           for (const uuid of noteUUIDs) {
             // console.log('on cloud it is not available, sync...')
             const localNote = await idb.read(uuid, state.idbStore)
@@ -329,7 +318,7 @@ export default new Vuex.Store({
     },
     async setTags ({ state, commit }) {
       const noteUUIDs = await idb.load(state.idbStore)
-      if (noteUUIDs.length > 0) {
+      if (noteUUIDs && noteUUIDs.length > 0) {
         const tags = new Set()
         for (const note of noteUUIDs) {
           const readNote = await idb.read(note, state.idbStore)

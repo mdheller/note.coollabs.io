@@ -1,9 +1,15 @@
 /* const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin */
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin')
 const pwaConfig = require('./pwa.config.js')
+const path = require('path')
 
 module.exports = {
   configureWebpack: {
     plugins: [
+      new ServiceWorkerWebpackPlugin({
+        entry: path.join(__dirname, 'src/service-worker.js'),
+        filename: 'service-worker.js'
+      })
       /* new BundleAnalyzerPlugin() */
     ]
   },
@@ -17,15 +23,11 @@ module.exports = {
             keyframes: true,
             /* defaultExtractor: content => content.match(/[A-Za-z0-9-_/:]*[A-Za-z0-9-_/]+/g) || [], */
             content: ['./public/**/*.html', './src/**/*.vue', './node_modules/@coollabsio/developer-kit/dist/developer-kit.umd.js'],
-            whitelist: ['fade-enter-active', 'fade-leave-active', 'fade-enter', 'fade-leave-to', 'v-lazy-image-loaded', 'alertify'],
+            whitelist: ['fade-enter-active', 'fade-leave-active', 'fade-enter', 'fade-leave-to', 'v-lazy-image-loaded'],
             whitelistPatternsChildren: [
-              /field.*/,
-              /control.*/,
-              /notices.*/,
-              /toast.*/,
-              /fade.*/,
-              /zoom.*/,
-              /help.*/
+              /b-tooltip.*cool.*/,
+              /is-cool.*/,
+              /notices.*/
             ]
           })
         ]

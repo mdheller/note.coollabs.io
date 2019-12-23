@@ -10,14 +10,14 @@
     >
       <span class="py-3 pb-5 text-white">
         <p class="text-4xl font-bold small-caps">Ooops, note deleted.</p>
-        <p class="text-base">Do you still need it?</p>
+        <p class="pb-2 text-base">Do you still need it?</p>
         <div class="flex flex-row justify-center">
           <button
-            class="mx-2 text-3xl syncbutton"
+            class="h-8 px-2 py-0 mx-2 button cool-button bg-coolgreen"
             @click="forceSync()"
           >Yes</button>
           <button
-            class="mx-2 text-3xl delbutton"
+            class="h-8 px-2 py-0 mx-2 button cool-button bg-coolred"
             @click="forceDelete()"
           >No</button>
         </div>
@@ -79,7 +79,7 @@
           <settings-icon
             v-if="note && !note.deleted"
             title="Settings"
-            class="fixed right-0 mx-6 icon-to-black settings-icon"
+            class="fixed right-0 mx-6 icon settings-icon"
           />
         </template>
         <template #dropdown-content>
@@ -145,7 +145,7 @@
     </div>
     <!-- <chevrons-up-icon class="fixed bottom-0 right-0 mx-6 mb-4 icon-black" @click.stop @click="toTop()" /> -->
     <x-icon
-      class="icon-to-black x-icon"
+      class="icon x-icon"
       @click="backAndNoSave()"
     />
   </div>
@@ -219,7 +219,6 @@ export default {
     this.loading = false
   },
   async mounted () {
-    console.log(this.$route)
     document.onkeydown = async evt => {
       evt = evt || window.event
       if (evt.keyCode === 27) {
@@ -233,6 +232,11 @@ export default {
       }
     }
     this.updateSizes()
+    this.$nextTick(() => {
+      if (this.$refs.title.value === '' && this.$refs.description.value === '') {
+        this.$refs.title.focus()
+      }
+    })
   },
   methods: {
     clearDoneTodos () {
@@ -470,6 +474,5 @@ export default {
   max-height: 132px
   @apply overflow-y-auto
 .custom-label
-  font-variant: small-caps
   @apply pl-2 text-base font-bold cursor-default text-left
 </style>

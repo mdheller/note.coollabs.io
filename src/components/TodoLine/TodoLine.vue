@@ -9,14 +9,14 @@
       <check-square-icon
         v-if="todo.isChecked"
         title="Done"
-        size="1.6x"
+        size="1.4x"
         class="inline-flex mx-2 text-green-500 cursor-pointer transition"
       />
       <square-icon
         v-else
-        size="1.6x"
+        size="1.4x"
         title="Undone"
-        class="inline-flex mx-2 text-gray-500 cursor-pointer transition hover:text-black-500"
+        class="inline-flex mx-2 text-gray-500 cursor-pointer transition hover:text-black"
       />
     </div>
     <div class="todo-list-item">

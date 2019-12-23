@@ -12,14 +12,14 @@
       >
         <span class="text-white">
           <p class="text-2xl font-bold small-caps">Ooops, note deleted.</p>
-          <p>Do you still need it?</p>
+          <p class="pb-2 text-base">Do you still need it?</p>
           <div class="flex flex-row justify-center">
             <button
-              class="py-2 mx-2 syncbutton"
+              class="h-8 px-2 py-0 mx-2 text-xs button cool-button bg-coolgreen"
               @click="forceSync()"
             >Yes</button>
             <button
-              class="py-2 mx-2 delbutton"
+              class="h-8 px-2 py-0 mx-2 text-xs button cool-button bg-coolred"
               @click="forceDelete()"
             >No</button>
           </div>
@@ -92,7 +92,7 @@
                 v-else
                 title="Undone"
                 size="24"
-                class="mx-2 icon"
+                class="mx-2 icon hover:text-black"
               />
             </div>
             <div class="note-todo-list-item">
@@ -114,90 +114,106 @@
           <div class="flex flex-col justify-end flex-grow h-full">
             <div class="flex flex-col mx-2 my-1">
               <div class="flex justify-end mt-1">
-                <span
+                <div
                   v-if="notOurNote()"
                   class="flex flex-row"
                 >
-                  <span
-                    class="absolute badge"
-                    :class="[note.sharedWith && note.sharedWith.length > 0 ? 'border border-gray-300' : '']"
-                  >{{ note.sharedWith && note.sharedWith.length > 0 ? note.sharedWith.length : '' }}</span>
-                  <user-plus-icon
+                  <b-tooltip
                     v-if="$store.state.isOnline && $store.state.connected"
-                    size="1.5x"
-                    class="mx-4 icon"
-                    title="Share note"
-                    @click.stop
-                    @click="shareNoteModal = true"
-                  />
-                  <span
-                    v-else
-                    class="has-tooltip-left has-tooltip-danger"
-                    data-tooltip="Cannot share in offline mode!"
+                    class="relative"
+                    position="is-left"
+                    label="Share"
+                    type="is-coolnote"
+                    animated
                   >
                     <user-plus-icon
                       size="1.5x"
-                      class="mx-4 text-red-600 cursor-not-allowed icon"
-                      title="Cannot share in offline mode!"
+                      class="mx-2 icon hover:text-black"
+                      title="Share"
+                      @click="shareNoteModal = true"
                       @click.stop
                     />
-                  </span>
-                  <div
-                    v-show="shareNoteModal"
-                    class="modal"
-                    :class="[shareNoteModal ? 'is-active': '']"
-                  >
                     <div
-                      class="modal-background"
+                      class="float-right badge"
+                    >{{ note.sharedWith && note.sharedWith.length > 0 ? note.sharedWith.length : '' }}</div>
+                  </b-tooltip>
+
+                  <b-tooltip
+                    v-else
+                    label="Cannot share in offline mode"
+                    position="is-left"
+                    type="is-coolred"
+                    animated
+                  >
+                    <user-plus-icon
+                      size="1.5x"
+                      class="mx-2 text-red-600 cursor-not-allowed icon"
+                      title="Cannot share in offline mode"
                       @click.stop
                     />
-                    <div class="modal-content">
-                      <sharing
-                        :note="note"
-                        @addShare="addShare"
-                        @removeShare="removeShare"
-                        @updateNote="updateNote()"
+                  </b-tooltip>
+                  <transition name="fade">
+                    <div
+                      v-show="shareNoteModal"
+                      class="modal"
+                      :class="[shareNoteModal ? 'is-active': '']"
+                    >
+                      <div
+                        class="modal-background"
+                        @click.stop
+                      />
+                      <div class="flex flex-col justify-center flex-1 max-h-full modal-content max-width-640">
+                        <sharing
+                          :note="note"
+                          @addShare="addShare"
+                          @removeShare="removeShare"
+                          @updateNote="updateNote()"
+                        />
+                      </div>
+                      <button
+                        class="modal-close is-large"
+                        aria-label="close"
+                        @click.stop
+                        @click="shareNoteModal = false"
                       />
                     </div>
-                    <button
-                      class="modal-close is-large"
-                      aria-label="close"
-                      @click.stop
-                      @click="shareNoteModal = false"
-                    />
-                  </div>
-                </span>
-                <span
+                  </transition>
+                </div>
+                <b-tooltip
                   v-else
-                  class="has-tooltip-left has-tooltip-danger"
-                  data-tooltip="Remove myself from sharing!"
+                  label="Remove yourself from sharing!"
+                  position="is-left"
+                  type="is-coolnote"
+                  animated
                 >
                   <user-x-icon
                     size="1.5x"
-                    class="mx-4 text-red-600 icon"
+                    class="mx-2 text-red-600 icon"
                     title="Remove myself from sharing"
                     @click.stop
                     @click="removeMyself()"
                   />
-                </span>
-                <span
+                </b-tooltip>
+                <b-tooltip
                   v-show="!removing"
-                  class="has-tooltip-left has-tooltip-danger"
-                  data-tooltip="Delete note!"
+                  type="is-coolred"
+                  label="Delete"
+                  position="is-left"
+                  animated
                 >
                   <trash-2-icon
                     size="1.5x"
-                    title="Delete note?"
-                    class="icon hover:text-red-600"
+                    title="Delete"
+                    class="mx-2 icon hover:text-red-600"
                     @click.stop
                     @click="removeNote()"
                   />
-                </span>
+                </b-tooltip>
                 <corner-up-left-icon
                   v-show="removing"
                   size="1.5x"
                   title="Undo deletion"
-                  class="text-red-600 icon"
+                  class="mx-2 text-red-600 icon"
                   @click.stop
                   @click="cancelRemove()"
                 />
@@ -207,6 +223,19 @@
         </div>
       </span>
     </div>
+    <!--     <b-modal
+      :active.sync="shareNoteModal"
+      :width="640"
+      :can-cancel="['escape', 'x']"
+      :trap-focus="true"
+    >
+      <sharing
+        :note="note"
+        @addShare="addShare"
+        @removeShare="removeShare"
+        @updateNote="updateNote()"
+      />
+    </b-modal> -->
   </div>
 </template>
 
@@ -498,11 +527,12 @@ export default {
   @apply cursor-pointer px-6
 .max-width-23
   max-width:23%
+.max-width-640
+  max-width: 640px
 .badge
-  font-size:0.8rem
-  right:37px
+  left:24px
   margin-top: -15px
   background-color: rgba(128, 128, 128, 0.1)
   min-width: 20px
-  @apply rounded-full px-1 text-black px-2 font-mono font-bold
+  @apply absolute rounded-full text-center text-xs font-mono font-bold bg-coolgreen2 text-white border border-white
 </style>
