@@ -8,15 +8,25 @@
       <template v-slot:slogan>
         <div class="px-10 text-base text-center md:text-2xl">
           It's available on
-          <span
-            class="has-tooltip-bottom has-tooltip-success has-tooltip-multiline has-tooltip-dashed"
-            data-tooltip="It's a Progressive Web Application! You can install it on your phone / desktop / everywhere!"
-          >all platforms</span>
+          <b-tooltip
+            multilined
+            type="is-coolgreen"
+            position="is-bottom"
+            dashed
+            label="It's a Progressive Web Application! You can install it on your phone / desktop / everywhere!"
+          >
+            <span>all platforms</span>
+          </b-tooltip>
           & without the
-          <span
-            class="has-tooltip-bottom has-tooltip-success has-tooltip-multiline has-tooltip-dashed"
-            data-tooltip="Without any service / server related to Amazon, Facebook, Google, Microsoft, and Apple or any big company. Sounds cool?"
-          >big five!</span>
+          <b-tooltip
+            multilined
+            type="is-coolgreen"
+            position="is-bottom"
+            dashed
+            label="Without any service / server related to Amazon, Facebook, Google, Microsoft, and Apple or any 3rd parties. Sounds cool?"
+          >
+            <span>big five!</span>
+          </b-tooltip>
         </div>
       </template>
       <template v-slot:app-features>
