@@ -8,19 +8,19 @@
         <b-input
           ref="input"
           v-model="email"
+          size="is-small"
           type="email"
-          class="text-base"
-          placeholder="coolLaborate by email address 🖖"
+          placeholder="Email address"
           :disabled="$store.state.loading.sharing"
           @keyup.native.enter="addShare()"
           @input="checkValid()"
         />
       </b-field>
-      <div class="flex flex-col-reverse md:flex-row">
+      <div class="flex flex-col pt-4 md:flex-row">
         <b-field
           v-if="note.sharedWith && note.sharedWith.length > 0"
-          label="Remove from sharing ❌"
-          class="flex flex-col pt-4"
+          label="Remove from sharing"
+          class="flex flex-col"
         >
           <div
             v-for="shared of note.sharedWith"
@@ -28,7 +28,7 @@
             class="text-center"
           >
             <div
-              class="px-2 py-1 my-2 font-bold text-white border-2 border-transparent rounded-full cursor-pointer bg-custom-red hover:border-red-700"
+              class="text-xs button cool-button bg-coolred"
               @click="removeShare(shared)"
             >
               {{ shared }}
@@ -38,8 +38,8 @@
         <div class="flex-1" />
         <b-field
           v-if="shareEmails.length > 0"
-          label="Favourites 🌟"
-          class="flex flex-col pt-4"
+          label="Favourites"
+          class="flex flex-col"
         >
           <div
             v-for="shared of shareEmails"
@@ -47,7 +47,7 @@
             class="text-center"
           >
             <div
-              class="px-2 py-1 my-2 font-bold text-black border-2 border-transparent rounded-full cursor-pointer bg-custom-green hover:text-white hover:border-green-700"
+              class="text-xs button cool-button bg-coolnote"
               @click="addShare(shared)"
             >
               {{ shared }}
@@ -121,9 +121,9 @@ export default {
             if (this.note.sharedWith.includes(this.email)) {
               this.$buefy.toast.open({
                 duration: 2000,
-                message: `Already shared with ${this.email}`,
+                message: `Already shared with ${this.email}.`,
                 position: 'is-top',
-                type: 'is-danger'
+                type: 'is-coolred'
               })
               this.$store.commit('setLoading', {
                 load: 'sharing',
@@ -134,7 +134,7 @@ export default {
                 duration: 2000,
                 message: 'Are you trying to share with yourself? 🤭',
                 position: 'is-top',
-                type: 'is-primary'
+                type: 'is-coolred'
               })
               this.$store.commit('setLoading', {
                 load: 'sharing',
@@ -158,7 +158,7 @@ export default {
               duration: 2000,
               message: `Already shared with ${fav}`,
               position: 'is-top',
-              type: 'is-danger'
+              type: 'is-coolred'
             })
             this.$store.commit('setLoading', {
               load: 'sharing',
@@ -169,7 +169,7 @@ export default {
               duration: 2000,
               message: 'Are you trying to share with yourself? 🤭',
               position: 'is-top',
-              type: 'is-primary'
+              type: 'is-coolnote'
             })
             this.$store.commit('setLoading', {
               load: 'sharing',
@@ -195,19 +195,11 @@ export default {
   border-color: white !important
 
 .field .label
-  @apply text-white text-center
+  @screen md
+    @apply text-left
+  @apply text-xs text-center
 
 .min-h-32
   min-height: 8rem
 
-.bg-custom-red
-  transition: all 0.2s ease-out
-  background-color: rgba(255,255,255,0.3)
-  &:hover
-    background-color: rgba(255,0,0,0.3)
-.bg-custom-green
-  transition: all 0.2s ease-out
-  background-color: rgba(255,255,255,1)
-  &:hover
-    background-color: rgba(0,255,0,0.3)
 </style>

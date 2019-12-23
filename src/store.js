@@ -152,16 +152,16 @@ export default new Vuex.Store({
         duration: 2000,
         message: 'User not found!',
         position: 'is-top',
-        type: 'is-danger'
+        type: 'is-coolred'
       })
       commit('setLoading', { load: 'sharing', isLoading: false })
     },
     SOCKET_addedShare ({ commit }, payload) {
       this._vm.$buefy.toast.open({
         duration: 2000,
-        message: `Shared with ${payload.email}! 🎉`,
+        message: `Shared with ${payload.email}!`,
         position: 'is-top',
-        type: 'is-success'
+        type: 'is-coolnote'
       })
       commit('setLoading', { load: 'sharing', isLoading: false })
     },
@@ -171,14 +171,14 @@ export default new Vuex.Store({
           duration: 2000,
           message: 'You removed yourself from the sharing list!',
           position: 'is-top',
-          type: 'is-success'
+          type: 'is-coolnote'
         })
       } else {
         this._vm.$buefy.toast.open({
           duration: 2000,
-          message: `Removed ${email} from sharing! 😱`,
+          message: `Removed ${email} from sharing!`,
           position: 'is-top',
-          type: 'is-danger'
+          type: 'is-coolnote'
         })
       }
 
@@ -198,37 +198,21 @@ export default new Vuex.Store({
         // If user is in home mode and the note is shared, but the sharing is deleted
         if (msg.data && msg.data.sharedWith && !msg.data.sharedWith.includes(email) && msg.data.userUuid !== decoded.jti) {
           dispatch('syncNoteLocally', { note: msg.data, type: 'findAndDelete' })
-          if (!msg.removedMyself) {
-            this._vm.$buefy.toast.open({
-              duration: 4000,
-              message: `'${msg.data.title}' (owned by ${msg.from || 'Unknown but cool'}) is not shared with you anymore! 😱`,
-              position: 'is-top',
-              type: 'is-danger'
-            })
-          }
           if (router.currentRoute && router.currentRoute.path && router.currentRoute.path !== '/' && router.currentRoute.params.noteUuid === msg.data.uuid) {
             router.push('/')
           }
         } else {
           // Not shared notes
-          if (msg.type === 'add') {
+          /*           if (msg.type === 'add') {
             this._vm.$buefy.toast.open({
               duration: 4000,
-              message: `Wow! You have a new shared note from ${msg.from}, called '${msg.data.title}'! 🎉`,
+              message: `Wow! You have a new shared note from ${msg.from}, called '${msg.data.title}'!`,
               position: 'is-top',
-              type: 'is-success'
+              type: 'is-dark'
             })
-          }
+          } */
           if (msg.data.userUuid !== decoded.jti && (!msg.data.sharedWith || !msg.data.sharedWith.includes(email))) {
             dispatch('syncNoteLocally', { note: msg.data, type: 'findAndDelete' })
-            if (!msg.removedMyself) {
-              this._vm.$buefy.toast.open({
-                duration: 4000,
-                message: `'${msg.data.title}' (owned by ${msg.from || 'Unknown but cool'}) is not shared with you anymore! 😱`,
-                position: 'is-top',
-                type: 'is-danger'
-              })
-            }
           } else {
             dispatch('syncNoteLocally', { note: msg.data, type: 'findAndModify' })
           }

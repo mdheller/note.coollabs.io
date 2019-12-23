@@ -37,7 +37,6 @@
         />
       </div>
     </div>
-
     <div
       v-show="showModal"
       class="overflow-auto modal"

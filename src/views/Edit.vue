@@ -474,6 +474,5 @@ export default {
   max-height: 132px
   @apply overflow-y-auto
 .custom-label
-  font-variant: small-caps
   @apply pl-2 text-base font-bold cursor-default text-left
 </style>
