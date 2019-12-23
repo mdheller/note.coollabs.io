@@ -7,13 +7,14 @@ import axios from 'axios'
 import vhCheck from 'vh-check'
 import VueSocketIO from 'vue-socket.io'
 import { setAxios } from '@coollabsio/developer-kit'
-import { Field, Input, Toast, Tooltip } from 'buefy'
+import { Field, Input, Toast, Tooltip, Modal } from 'buefy'
 window.coolArtillery && window.coolArtillery({ Vue })
 
 Vue.use(Field)
 Vue.use(Input)
 Vue.use(Toast)
 Vue.use(Tooltip)
+Vue.use(Modal)
 
 vhCheck()
 
