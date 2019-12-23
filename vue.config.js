@@ -27,7 +27,7 @@ module.exports = {
             whitelistPatternsChildren: [
               /b-tooltip.*cool.*/,
               /is-cool.*/,
-              /toast.*/
+              /notices.*/
             ]
           })
         ]
