@@ -28,7 +28,7 @@
             class="text-center"
           >
             <div
-              class="text-xs button cool-button bg-coolred"
+              class="mt-2 text-xs button cool-button bg-coolred"
               @click="removeShare(shared)"
             >
               {{ shared }}
@@ -47,7 +47,7 @@
             class="text-center"
           >
             <div
-              class="text-xs button cool-button bg-coolnote"
+              class="mt-2 text-xs button cool-button bg-coolnote"
               @click="addShare(shared)"
             >
               {{ shared }}
