@@ -154,7 +154,7 @@
                   </b-tooltip>
                   <transition name="fade">
                     <div
-                      v-if="shareNoteModal"
+                      v-show="shareNoteModal"
                       class="modal"
                       :class="[shareNoteModal ? 'is-active': '']"
                     >
@@ -162,7 +162,7 @@
                         class="modal-background"
                         @click.stop
                       />
-                      <div class="modal-content max-width-640">
+                      <div class="flex flex-col justify-center flex-1 max-h-full modal-content max-width-640">
                         <sharing
                           :note="note"
                           @addShare="addShare"
