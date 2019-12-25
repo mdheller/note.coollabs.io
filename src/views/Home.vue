@@ -20,11 +20,11 @@
         </div>
       </div>
       <div v-if="$store.state.notes.length === 0 && $store.state.loading.remoteNotes">
-        <div class="absolute flex justify-center w-full text-center center transition">
-          <LoaderIcon
-            size="50"
-            class="text-coolnote loading"
-          />
+        <div class="text-base font-bold text-center centered lg:text-4xl">
+          <span>Loading</span>
+          <span class="animated fadeIn">.</span>
+          <span class="animated fadeIn delay-1s">.</span>
+          <span class="animated fadeIn delay-2s">.</span>
         </div>
       </div>
       <note
@@ -36,11 +36,11 @@
       />
     </div>
     <div v-else>
-      <div class="absolute flex justify-center w-full text-center center transition">
-        <LoaderIcon
-          size="50"
-          class="text-coolnote loading"
-        />
+      <div class="text-base font-bold text-center centered lg:text-4xl">
+        <span>Loading</span>
+        <span class="animated fadeIn">.</span>
+        <span class="animated fadeIn delay-1s">.</span>
+        <span class="animated fadeIn delay-2s">.</span>
       </div>
     </div>
     <b-modal
@@ -57,11 +57,11 @@
 
 <script>
 import Note from '@/components/Note/Note'
-import { PlusIcon, LoaderIcon } from 'vue-feather-icons'
+import { PlusIcon } from 'vue-feather-icons'
 
 export default {
   name: 'Home',
-  components: { Note, PlusIcon, LoaderIcon },
+  components: { Note, PlusIcon },
   data () {
     return {
       showModal: this.$route.meta.showModal
