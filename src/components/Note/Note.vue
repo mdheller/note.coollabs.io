@@ -157,6 +157,7 @@
                       v-show="shareNoteModal"
                       class="modal"
                       :class="[shareNoteModal ? 'is-active': '']"
+                      @click.stop
                     >
                       <div
                         class="modal-background"
