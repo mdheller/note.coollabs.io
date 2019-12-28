@@ -6,7 +6,7 @@
     >
       <div
         v-if="$store.state.notes.length === 0 && !$store.state.loading.remoteNotes"
-        class="absolute w-full text-base font-bold text-center text-black center transition"
+        class="absolute w-full text-base font-bold text-center text-black centered transition"
       >
         No notes found! Let's create your first one!
         <div
