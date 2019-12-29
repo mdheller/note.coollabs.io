@@ -3,7 +3,7 @@
     <landing-page
       :description="require('../../package').description"
       :pricing="false"
-      :docs="false"
+      :docs="true"
     >
       <template v-slot:slogan>
         <div class="px-10 text-base text-center md:text-2xl">
