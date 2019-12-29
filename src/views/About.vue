@@ -30,7 +30,7 @@
         </div>
       </template>
       <template v-slot:app-features>
-        <div class="flex flex-col justify-center pt-10 lg:flex-row">
+        <div class="flex flex-col justify-center lg:flex-row">
           <fact
             emoji="bicycle"
             title="Use It On The Go"
