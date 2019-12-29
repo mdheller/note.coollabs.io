@@ -76,11 +76,13 @@
         content-design="mt-10"
       >
         <template #dropdown-trigger>
-          <settings-icon
-            v-if="note && !note.deleted"
-            title="Settings"
-            class="fixed right-0 mx-6 icon settings-icon"
-          />
+          <div class="fixed right-0 px-6 py-4 settings-icon">
+            <settings-icon
+              v-if="note && !note.deleted"
+              title="Settings"
+              class="icon"
+            />
+          </div>
         </template>
         <template #dropdown-content>
           <div class="custom-label">
@@ -143,11 +145,12 @@
         </template>
       </Dropdown>
     </div>
-    <!-- <chevrons-up-icon class="fixed bottom-0 right-0 mx-6 mb-4 icon-black" @click.stop @click="toTop()" /> -->
-    <x-icon
-      class="icon x-icon"
+    <div
+      class="fixed top-0 right-0 px-6 py-4 cursor-pointer"
       @click="backAndNoSave()"
-    />
+    >
+      <x-icon class="icon" />
+    </div>
   </div>
   <Loading
     v-else
@@ -233,7 +236,7 @@ export default {
     }
     this.updateSizes()
     this.$nextTick(() => {
-      if (this.$refs.title.value === '' && this.$refs.description.value === '') {
+      if (this.$refs.title && this.$refs.title.value === '' && this.$refs.description.value === '') {
         this.$refs.title.focus()
       }
     })
@@ -457,10 +460,8 @@ export default {
     width:95%
     padding: 10px 17% 0px 20% !important
     @apply text-xl
-.x-icon
-  @apply fixed right-0 top-0 my-4 mx-6
 .settings-icon
-  top: 5rem
+  top: 4rem
 .settings-icon-menu
   top: 4rem
 .check
