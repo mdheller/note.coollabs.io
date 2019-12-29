@@ -3,7 +3,7 @@
     <landing-page
       :description="require('../../package').description"
       :pricing="false"
-      :docs="false"
+      :docs="true"
     >
       <template v-slot:slogan>
         <div class="px-10 text-base text-center md:text-2xl">
@@ -30,7 +30,7 @@
         </div>
       </template>
       <template v-slot:app-features>
-        <div class="flex flex-col justify-center pt-10 lg:flex-row">
+        <div class="flex flex-col justify-center lg:flex-row">
           <fact
             emoji="bicycle"
             title="Use It On The Go"
@@ -40,13 +40,6 @@
             emoji="handshake"
             title="Real Time Sharing & Editing"
             description="You can coolLaborate on your notes live with others!"
-          />
-        </div>
-        <div class="flex flex-col justify-center lg:pb-10 lg:flex-row">
-          <fact
-            :wip="true"
-            emoji="more"
-            title="Markdown Support"
           />
         </div>
       </template>
