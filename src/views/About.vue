@@ -42,13 +42,13 @@
             description="You can coolLaborate on your notes live with others!"
           />
         </div>
-        <div class="flex flex-col justify-center lg:pb-10 lg:flex-row">
+        <!--         <div class="flex flex-col justify-center lg:pb-10 lg:flex-row">
           <fact
             :wip="true"
             emoji="more"
             title="Markdown Support"
           />
-        </div>
+        </div> -->
       </template>
     </landing-page>
     <Footer class="text-white bg-coolnoteover" />
