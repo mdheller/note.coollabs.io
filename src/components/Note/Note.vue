@@ -224,19 +224,6 @@
         </div>
       </span>
     </div>
-    <!--     <b-modal
-      :active.sync="shareNoteModal"
-      :width="640"
-      :can-cancel="['escape', 'x']"
-      :trap-focus="true"
-    >
-      <sharing
-        :note="note"
-        @addShare="addShare"
-        @removeShare="removeShare"
-        @updateNote="updateNote()"
-      />
-    </b-modal> -->
   </div>
 </template>
 

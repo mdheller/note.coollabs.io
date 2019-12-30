@@ -414,7 +414,10 @@ export default {
         this.debounceFn = debounce(function () {
           self.$store.dispatch('syncNoteLocally', {
             note: lastUpdate,
-            type: 'findAndModify'
+            type: 'findAndModify',
+            // Only update note sequence if modification is done in Edit mode.
+            // So in Home view, sequence is not modified, which is good, as we do not want to have jumping notes. cool
+            fromEditMode: true
           })
           self.$store.commit('setState', { name: 'selectedNote', value: lastUpdate })
           if (self.$store.state.isOnline) {

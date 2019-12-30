@@ -8,6 +8,34 @@ import { idb, coolStore } from '@coollabsio/developer-kit'
 
 Vue.use(Vuex)
 
+function sortNotes (data) {
+  const sortBy = localStorage.getItem('sort')
+  switch (sortBy) {
+    case 'moddate':
+      data = data.sort((a, b) => {
+        if (b.lastUpdate && a.lastUpdate) {
+          return new Date(b.lastUpdate) - new Date(a.lastUpdate)
+        }
+      })
+      break
+    case 'title':
+      data = data.sort((a, b) => {
+        if (b.title && a.title) {
+          return a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+        }
+      })
+      break
+    default:
+      data = data.sort((a, b) => {
+        if (b.title && a.title) {
+          return a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+        }
+      })
+      break
+  }
+
+  return data
+}
 export default new Vuex.Store({
   namespaced: true,
   modules: {
@@ -50,20 +78,20 @@ export default new Vuex.Store({
       state.loading[value.load] = value.isLoading
     },
     setNote (state, value) {
-      const { index, note } = value
+      const { index, note, fromEditMode } = value
       const changedNotes = [...state.notes]
       changedNotes[index] = note
-      state.notes = changedNotes
+      fromEditMode === undefined ? state.notes = changedNotes : state.notes = sortNotes(changedNotes)
     },
     addNote (state, value) {
       const changedNotes = [...state.notes]
       changedNotes.push(value)
-      state.notes = changedNotes.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()))
+      state.notes = sortNotes(changedNotes)
     },
     delNote (state, index) {
       const changedNotes = [...state.notes]
       changedNotes.splice(index, 1)
-      state.notes = changedNotes
+      state.notes = sortNotes(changedNotes)
     }
   },
   actions: {
@@ -77,7 +105,7 @@ export default new Vuex.Store({
           testNotes.push(readNote)
         }
         dispatch('setTags')
-        commit('setState', { name: 'notes', value: testNotes.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())) })
+        commit('setState', { name: 'notes', value: sortNotes(testNotes) })
       } else {
         commit('setLoading', { load: 'localNotes', isLoading: false })
       }
@@ -101,7 +129,7 @@ export default new Vuex.Store({
       }
     },
     syncNoteLocally ({ state, commit, dispatch }, data) {
-      const { note, index, type, uuid } = data
+      const { note, index, type, uuid, fromEditMode } = data
       if (type === 'delete') {
         commit('delNote', index)
         idb.remove(note.uuid, state.idbStore)
@@ -130,7 +158,7 @@ export default new Vuex.Store({
         dispatch('setTags')
       }
       if (type === 'modify') {
-        commit('setNote', { index: index, note: note })
+        commit('setNote', { index: index, note: note, fromEditMode: fromEditMode })
         idb.save(note.uuid, note, state.idbStore)
         dispatch('setTags')
       }
@@ -139,7 +167,7 @@ export default new Vuex.Store({
         for (const [i, findNote] of state.notes.entries()) {
           if (findNote.uuid === note.uuid) {
             found = true
-            dispatch('syncNoteLocally', { note: note, index: i, type: 'modify' })
+            dispatch('syncNoteLocally', { note: note, index: i, type: 'modify', fromEditMode: fromEditMode })
           }
         }
         if (!found) {

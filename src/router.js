@@ -84,5 +84,5 @@ router.afterEach((to, from) => {
   }
 })
 
-setRouter({ router, guest: ['/about'] })
+setRouter({ router, guest: ['/about'], path: `${process.env.VUE_APP_API}/v1` })
 export default router
