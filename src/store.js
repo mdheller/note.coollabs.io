@@ -78,10 +78,10 @@ export default new Vuex.Store({
       state.loading[value.load] = value.isLoading
     },
     setNote (state, value) {
-      const { index, note } = value
+      const { index, note, fromEditMode } = value
       const changedNotes = [...state.notes]
       changedNotes[index] = note
-      state.notes = sortNotes(changedNotes)
+      fromEditMode === undefined ? state.notes = changedNotes : state.notes = sortNotes(changedNotes)
     },
     addNote (state, value) {
       const changedNotes = [...state.notes]
@@ -129,7 +129,7 @@ export default new Vuex.Store({
       }
     },
     syncNoteLocally ({ state, commit, dispatch }, data) {
-      const { note, index, type, uuid } = data
+      const { note, index, type, uuid, fromEditMode } = data
       if (type === 'delete') {
         commit('delNote', index)
         idb.remove(note.uuid, state.idbStore)
@@ -158,7 +158,7 @@ export default new Vuex.Store({
         dispatch('setTags')
       }
       if (type === 'modify') {
-        commit('setNote', { index: index, note: note })
+        commit('setNote', { index: index, note: note, fromEditMode: fromEditMode })
         idb.save(note.uuid, note, state.idbStore)
         dispatch('setTags')
       }
@@ -167,7 +167,7 @@ export default new Vuex.Store({
         for (const [i, findNote] of state.notes.entries()) {
           if (findNote.uuid === note.uuid) {
             found = true
-            dispatch('syncNoteLocally', { note: note, index: i, type: 'modify' })
+            dispatch('syncNoteLocally', { note: note, index: i, type: 'modify', fromEditMode: fromEditMode })
           }
         }
         if (!found) {
