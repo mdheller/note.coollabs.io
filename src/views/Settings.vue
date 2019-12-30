@@ -3,8 +3,8 @@
     <template v-slot:settings>
       <div class="container flex flex-row w-full px-2 my-3 text-white lg:px-10">
         <div class="flex flex-col items-center justify-center w-full text-center md:flex-row">
-          <div class="pr-0 text-2xl font-bold md:pr-10">
-            Default sorting
+          <div class="pr-0 text-base font-bold md:text-2xl md:pr-10">
+            Sort By
           </div>
           <div class="flex flex-row pt-4 md:pt-0">
             <div

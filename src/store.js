@@ -10,20 +10,30 @@ Vue.use(Vuex)
 
 function sortNotes (data) {
   const sortBy = localStorage.getItem('sort')
-  if (sortBy === 'moddate') {
-    data = data.sort((a, b) => {
-      if (b.lastUpdate && a.lastUpdate) {
-        return new Date(b.lastUpdate) - new Date(a.lastUpdate)
-      }
-    })
+  switch (sortBy) {
+    case 'moddate':
+      data = data.sort((a, b) => {
+        if (b.lastUpdate && a.lastUpdate) {
+          return new Date(b.lastUpdate) - new Date(a.lastUpdate)
+        }
+      })
+      break
+    case 'title':
+      data = data.sort((a, b) => {
+        if (b.title && a.title) {
+          return a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+        }
+      })
+      break
+    default:
+      data = data.sort((a, b) => {
+        if (b.title && a.title) {
+          return a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+        }
+      })
+      break
   }
-  if (sortBy === 'title') {
-    data = data.sort((a, b) => {
-      if (b.title && a.title) {
-        return a.title.toLowerCase().localeCompare(b.title.toLowerCase())
-      }
-    })
-  }
+
   return data
 }
 export default new Vuex.Store({
