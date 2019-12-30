@@ -8,6 +8,24 @@ import { idb, coolStore } from '@coollabsio/developer-kit'
 
 Vue.use(Vuex)
 
+function sortNotes (data) {
+  const sortBy = localStorage.getItem('sort')
+  if (sortBy === 'moddate') {
+    data = data.sort((a, b) => {
+      if (b.lastUpdate && a.lastUpdate) {
+        return new Date(b.lastUpdate) - new Date(a.lastUpdate)
+      }
+    })
+  }
+  if (sortBy === 'title') {
+    data = data.sort((a, b) => {
+      if (b.title && a.title) {
+        return a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+      }
+    })
+  }
+  return data
+}
 export default new Vuex.Store({
   namespaced: true,
   modules: {
@@ -53,17 +71,17 @@ export default new Vuex.Store({
       const { index, note } = value
       const changedNotes = [...state.notes]
       changedNotes[index] = note
-      state.notes = changedNotes
+      state.notes = sortNotes(changedNotes)
     },
     addNote (state, value) {
       const changedNotes = [...state.notes]
       changedNotes.push(value)
-      state.notes = changedNotes.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()))
+      state.notes = sortNotes(changedNotes)
     },
     delNote (state, index) {
       const changedNotes = [...state.notes]
       changedNotes.splice(index, 1)
-      state.notes = changedNotes
+      state.notes = sortNotes(changedNotes)
     }
   },
   actions: {
@@ -77,7 +95,7 @@ export default new Vuex.Store({
           testNotes.push(readNote)
         }
         dispatch('setTags')
-        commit('setState', { name: 'notes', value: testNotes.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase())) })
+        commit('setState', { name: 'notes', value: sortNotes(testNotes) })
       } else {
         commit('setLoading', { load: 'localNotes', isLoading: false })
       }
