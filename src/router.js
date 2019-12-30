@@ -9,6 +9,11 @@ Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
+  coolSettings: {
+    beta: false,
+    app: 'coolNote',
+    deletion: true
+  },
   routes: [
     {
       path: '/about',
@@ -47,11 +52,7 @@ const router = new Router({
     {
       path: '/profile',
       name: 'Profile',
-      component: Profile,
-      meta: {
-        app: 'coolNote',
-        deletion: true
-      }
+      component: Profile
     },
     {
       path: '*',
