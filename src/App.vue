@@ -93,7 +93,7 @@
   </main>
 </template>
 <script>
-import { Navbar } from '@coollabsio/developer-kit'
+import { Navbar, registerDevkit } from '@coollabsio/developer-kit'
 import { Edit3Icon, ArrowLeftIcon, HashIcon } from 'vue-feather-icons'
 export default {
   name: 'App',
@@ -136,7 +136,7 @@ export default {
     if (this.$route.path === '/profile' || this.$route.path === '/feature-board') {
       this.editMode = false
     }
-    await this.$store.dispatch('coolStore/checkLogin', { vue: this, db: { db: 'coolNoteDB', store: 'coolNoteStore' }, app: 'coolNote' })
+    await registerDevkit({ vue: this, db: { db: 'coolNoteDB', store: 'coolNoteStore' }, app: 'coolNote' })
   },
   mounted () {
     if (navigator.onLine) {
