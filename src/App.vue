@@ -136,7 +136,7 @@ export default {
     if (this.$route.path === '/profile' || this.$route.path === '/feature-board') {
       this.editMode = false
     }
-    await registerDevkit({ vue: this, db: { db: 'coolNoteDB', store: 'coolNoteStore' }, app: 'coolNote' })
+    await registerDevkit({ vue: this, db: { db: 'coolNoteDB', store: 'coolNoteStore' } })
   },
   mounted () {
     if (navigator.onLine) {
