@@ -79,13 +79,11 @@ export default {
     }
     // Needed after the first login
     if (navigator.onLine) {
-      if (this.$route.path !== '/about' && !this.$socket.connected) {
+      if (!this.$socket.connected) {
         this.$socket.connect()
-        this.$store.commit('setState', { name: 'isOnline', value: true })
       }
     } else {
       if (this.$socket.connected) this.$socket.disconnect()
-      this.$store.commit('setState', { name: 'isOnline', value: false })
       this.$store.commit('setLoading', { load: 'remoteNotes', isLoading: false })
     }
   },

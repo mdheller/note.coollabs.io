@@ -50,7 +50,7 @@
       <template v-slot:things-before-menu>
         <div
           class="w-2 h-2 mx-3 my-auto text-center rounded-full shadow-lg indicator animated onoff"
-          :class="[$store.state.isOnline && $store.state.connected ? 'bg-coollime rubberBand' : 'bg-red-500 heartBeat fast']"
+          :class="[$store.state.coolStore.isOnline && $store.state.connected ? 'bg-coollime rubberBand' : 'bg-red-500 heartBeat fast']"
         >
           <div
             v-if="$store.state.loading.remoteNotes"
@@ -142,19 +142,11 @@ export default {
     if (navigator.onLine) {
       if (this.$route.path !== '/about' && !this.$socket.connected) {
         this.$socket.connect()
-        this.$store.commit('setState', { name: 'isOnline', value: true })
       }
     } else {
       if (this.$socket.connected) this.$socket.disconnect()
-      this.$store.commit('setState', { name: 'isOnline', value: false })
       this.$store.commit('setLoading', { load: 'remoteNotes', isLoading: false })
     }
-    window.addEventListener('online', this.updateOnlineStatus)
-    window.addEventListener('offline', this.updateOnlineStatus)
-  },
-  beforeDestroy () {
-    window.removeEventListener('online', this.updateOnlineStatus)
-    window.removeEventListener('offline', this.updateOnlineStatus)
   },
   methods: {
     selectTag (tag) {
@@ -177,17 +169,6 @@ export default {
       this.$store.commit('setState', { name: 'selectedTag', value: null })
       this.$store.commit('showMainMenu', false)
       this.$store.dispatch('addNewNote')
-    },
-    updateOnlineStatus (value) {
-      if (value.type === 'online') {
-        if (this.$route.path !== '/about' && !this.$socket.connected) {
-          this.$socket.connect()
-          this.$store.commit('setState', { name: 'isOnline', value: true })
-        }
-      } else {
-        this.$socket.disconnect()
-        this.$store.commit('setState', { name: 'isOnline', value: false })
-      }
     }
   }
 }
