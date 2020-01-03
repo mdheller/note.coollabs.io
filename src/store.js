@@ -51,7 +51,6 @@ export default new Vuex.Store({
       localNotes: true,
       sharing: false
     },
-    isOnline: true,
     connected: false,
     showMainMenu: false,
     isMenuVisible: false,

@@ -119,7 +119,7 @@
                   class="flex flex-row"
                 >
                   <b-tooltip
-                    v-if="$store.state.isOnline && $store.state.connected"
+                    v-if="$store.state.coolStore.isOnline && $store.state.connected"
                     class="relative"
                     position="is-left"
                     label="Share"
@@ -405,7 +405,7 @@ export default {
           ...this.note,
           lastUpdate: new Date().toISOString()
         }
-        if (this.$store.state.isOnline) {
+        if (this.$store.state.coolStore.isOnline) {
           this.$store.dispatch('syncNoteLocally', {
             note: lastUpdate,
             type: 'findAndDelete'
@@ -449,7 +449,7 @@ export default {
               type: 'findAndModify'
             })
           }
-          if (this.$store.state.isOnline) {
+          if (this.$store.state.coolStore.isOnline) {
             if (this.debounceFn) this.debounceFn.cancel()
             this.debounceFn = debounce(function () {
               if (newNote) {

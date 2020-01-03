@@ -184,9 +184,6 @@ export default {
     }
   },
   computed: {
-    isOnline () {
-      return this.$store.state.isOnline
-    },
     note: {
       get: function () {
         return this.$store.state.selectedNote
@@ -420,7 +417,7 @@ export default {
             fromEditMode: true
           })
           self.$store.commit('setState', { name: 'selectedNote', value: lastUpdate })
-          if (self.$store.state.isOnline) {
+          if (self.$store.state.coolStore.isOnline) {
             self.$socket.emit('updateNote', {
               note: lastUpdate,
               sendTo: 'others'

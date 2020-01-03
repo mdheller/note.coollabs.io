@@ -10,9 +10,9 @@ Vue.use(Router)
 const router = new Router({
   mode: 'history',
   coolSettings: {
-    beta: false,
     app: 'coolNote',
-    deletion: true
+    isBeta: false,
+    isWorkingOffline: true
   },
   routes: [
     {
