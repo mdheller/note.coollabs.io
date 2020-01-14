@@ -73,10 +73,15 @@ export default {
       this.showModal = showModal
     }
   },
-  mounted () {
+  async mounted () {
     if (this.$store.state.notes.length === 0) {
       this.$store.commit('setLoading', { load: 'localNotes', isLoading: true })
-      this.$store.dispatch('loadLocalNotes')
+      await this.$store.dispatch('loadLocalNotes')
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      })
     }
     // Needed after the first login
     if (navigator.onLine) {
