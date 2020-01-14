@@ -444,7 +444,7 @@ export default {
     @apply text-4xl
 .note-description-edit
   padding: 0px 40px 0px 12px !important
-  @apply w-full h-full text-base mb-10
+  @apply w-full h-full text-base pb-10
   @screen lg
     padding: 0px 17% 0px 20% !important
     @apply text-xl w-full
