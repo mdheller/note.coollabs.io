@@ -1,7 +1,7 @@
 {
   "name": "note.coollabs.io",
   "description": "Take your notes, like never before, in a cool way",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "license": "MIT",
   "author": "coolLabs",
@@ -16,11 +16,11 @@
   "dependencies": {
     "autosize": "^4.0.2",
     "buefy": "^0.8.9",
-    "core-js": "^3.6.3",
+    "core-js": "^3.6.4",
     "lodash.debounce": "^4.0.8",
     "uuid": "^3.3.3",
     "vue": "^2.6.11",
-    "vue-router": "^3.1.3",
+    "vue-router": "^3.1.4",
     "vue-socket.io": "^3.0.7",
     "vuex": "^3.1.2"
   },
