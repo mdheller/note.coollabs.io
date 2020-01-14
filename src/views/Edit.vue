@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="!loading"
-    class="edit"
+    class="min-h-full edit"
   >
     <div
       v-if="note && note.deleted"
