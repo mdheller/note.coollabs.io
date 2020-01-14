@@ -12,7 +12,9 @@ const router = new Router({
   coolSettings: {
     app: 'coolNote',
     isBeta: false,
-    isWorkingOffline: true
+    isWorkingOffline: true,
+    isDocsAvailable: true,
+    isFree: true
   },
   routes: [
     {

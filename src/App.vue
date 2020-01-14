@@ -121,10 +121,8 @@ export default {
     $route (to, from) {
       if (to.name === 'Edit') {
         this.editMode = true
-        document.documentElement.classList.add('overflow-hidden')
       } else {
         this.editMode = false
-        document.documentElement.classList.remove('overflow-hidden')
       }
       if (to.name === 'Profile' || to.name === 'FeatureBoard' || to.name === 'SettingsView') {
         this.$store.commit('setState', { name: 'notes', value: [] })

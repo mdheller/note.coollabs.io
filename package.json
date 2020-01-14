@@ -1,7 +1,7 @@
 {
   "name": "note.coollabs.io",
   "description": "Take your notes, like never before, in a cool way",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "license": "MIT",
   "author": "coolLabs",
@@ -16,16 +16,16 @@
   "dependencies": {
     "autosize": "^4.0.2",
     "buefy": "^0.8.9",
-    "core-js": "^3.6.3",
+    "core-js": "^3.6.4",
     "lodash.debounce": "^4.0.8",
     "uuid": "^3.3.3",
     "vue": "^2.6.11",
-    "vue-router": "^3.1.3",
+    "vue-router": "^3.1.4",
     "vue-socket.io": "^3.0.7",
     "vuex": "^3.1.2"
   },
   "devDependencies": {
-    "@coollabsio/developer-kit": "^1.0.73",
+    "@coollabsio/developer-kit": "^1.0.80",
     "@vue/cli-plugin-babel": "^4.1.2",
     "@vue/cli-plugin-eslint": "^4.1.2",
     "@vue/cli-service": "^4.1.2",
@@ -38,7 +38,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^6.1.2",
     "sass": "^1.24.4",
-    "sass-loader": "^8.0.1",
+    "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11",
     "webpack-bundle-analyzer": "^3.6.0"
   }
