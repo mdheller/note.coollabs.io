@@ -45,8 +45,8 @@
     </div>
     <b-modal
       :active.sync="showModal"
-      scroll="keep"
       full-screen
+      trap-focus
       :can-cancel="false"
       aria-modal
     >
