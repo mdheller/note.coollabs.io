@@ -35,8 +35,8 @@ module.exports = {
     }
   },
   devServer: {
-    compress: true,
-    open: true,
+    compress: false,
+    open: false,
     https: false
   },
   pwa: pwaConfig

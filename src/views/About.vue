@@ -2,8 +2,7 @@
   <div class="h-full">
     <landing-page
       :description="require('../../package').description"
-      :pricing="false"
-      :docs="true"
+      logged-in-text="Scrabble it!"
     >
       <template v-slot:slogan>
         <div class="px-10 text-base text-center md:text-2xl">
