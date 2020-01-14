@@ -47,6 +47,7 @@
       :active.sync="showModal"
       full-screen
       trap-focus
+      scroll="keep"
       :can-cancel="false"
       aria-modal
     >
